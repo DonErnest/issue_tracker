@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+        <h1 class = "text-center pt-3">Задачи</h1>
+        <div class="mt-1 mb-1 row justify-content-center">
+            {% for task in tasks %}
+                <div class="card ml-1 mr-1 mb-1" style="width: 18rem;">
+                    <div class="card-header">
+                        <h5 class="card-title text-center">{{ task.summary }}</h5>
+                    </div>
+                    <div class="card-body ">
+                        <h6><strong>Тип: </strong>{{ task.type }}</h6>
+                        <h6><strong>Статус: </strong>{{ task.status }}</h6>
+                    </div>
+{#                    <div class="btn-group">#}
+{#                        <a href="{% url 'article_view' article.pk %}" class="card-link btn btn-success btn-sm">Read</a>#}
+{#                        <a href="{% url 'article_update' article.pk %}" class="card-link btn btn-success btn-sm">Update</a>#}
+{#                        <a href="{% url 'article_delete' article.pk %}" class="card-link btn btn-success btn-sm">Delete</a>#}
+{#                    </div>#}
+                </div>
+            {% endfor %}
+        </div>
+{% endblock %}
