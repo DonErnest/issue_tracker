@@ -16,9 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from webapp.views import IndexView
+from webapp.views import IndexView, TaskView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', IndexView.as_view(),name='main_page')
+    path('', IndexView.as_view(),name='main_page'),
+    path('task/<int:pk>', TaskView.as_view(), name='task_view'),
 ]

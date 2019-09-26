@@ -14,11 +14,11 @@
                         <h6><strong>Тип: </strong>{{ task.type }}</h6>
                         <h6><strong>Статус: </strong>{{ task.status }}</h6>
                     </div>
-{#                    <div class="btn-group">#}
-{#                        <a href="{% url 'article_view' article.pk %}" class="card-link btn btn-success btn-sm">Read</a>#}
+                    <div class="btn-group">
+                        <a href="{% url 'task_view' task.pk %}" class="card-link btn btn-success btn-sm">Просмотр</a>
 {#                        <a href="{% url 'article_update' article.pk %}" class="card-link btn btn-success btn-sm">Update</a>#}
 {#                        <a href="{% url 'article_delete' article.pk %}" class="card-link btn btn-success btn-sm">Delete</a>#}
-{#                    </div>#}
+                    </div>
                 </div>
             {% endfor %}
         </div>
