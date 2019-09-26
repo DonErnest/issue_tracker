@@ -4,8 +4,10 @@ from django.db import models
 class Task(models.Model):
     summary = models.CharField(max_length=200, null=False, blank=False, verbose_name='summary')
     description = models.TextField(max_length=2000, null=True, blank=True, verbose_name='description')
-    status = models.ForeignKey('webapp.Status', on_delete=models.PROTECT,related_name='tasks', verbose_name='status')
-    type = models.ForeignKey('webapp.Type',on_delete=models.PROTECT, related_name='tasks', verbose_name='type')
+    status = models.ForeignKey('webapp.Status', on_delete=models.PROTECT,related_name='tasks', verbose_name='status',
+                               null=True, blank=True)
+    type = models.ForeignKey('webapp.Type',on_delete=models.PROTECT, related_name='tasks', verbose_name='type',
+                             null=True, blank=True)
     created_at= models.DateTimeField(auto_now_add=True, verbose_name='created')
 
     def __str__(self):
