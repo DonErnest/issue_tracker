@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import TemplateView, CreateView, UpdateView, DeleteView
+from django.views.generic import View, TemplateView, CreateView, UpdateView, DeleteView
 
 from webapp.forms import TaskForm, StatusForm, TypeForm
 from webapp.models import Task, Status, Type as Type
@@ -28,7 +28,7 @@ class TaskView(TemplateView):
         return context
 
 
-class CreateTaskView(TemplateView):
+class CreateTaskView(View):
     def get(self, request, *args, **kwargs):
         form = TaskForm()
         return render(request, 'task_create.html', context={'form':form})
@@ -44,7 +44,7 @@ class CreateTaskView(TemplateView):
         return render(request, 'task_create.html', context={'form':form})
 
 
-class EditTaskView(TemplateView):
+class EditTaskView(View):
     def get(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
         task = get_object_or_404(Task, pk=pk)
@@ -71,7 +71,7 @@ class EditTaskView(TemplateView):
             })
 
 
-class DeleteTaskView(TemplateView):
+class DeleteTaskView(View):
     def get(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
         task = get_object_or_404(Task, pk=pk)
