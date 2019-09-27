@@ -1,3 +1,4 @@
+from django.db.models import ProtectedError
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import View, TemplateView, CreateView, UpdateView, DeleteView
 
@@ -109,6 +110,11 @@ class DeleteStatusView(DeleteView):
     template_name = 'status_delete.html'
     success_url = '/'
 
+    def post(self, request, *args, **kwargs):
+        try:
+            return self.delete(request, *args, **kwargs)
+        except ProtectedError:
+            return render(request, 'protected_error.html')
 
 class TypeAddView(CreateView):
     model = Type
@@ -134,3 +140,9 @@ class DeleteTypeView(DeleteView):
     model = Type
     template_name = 'type_delete.html'
     success_url = '/'
+
+    def post(self, request, *args, **kwargs):
+        try:
+            return self.delete(request, *args, **kwargs)
+        except ProtectedError:
+            return render(request, 'protected_error.html')
