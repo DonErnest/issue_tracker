@@ -10,3 +10,10 @@ class TaskForm(forms.Form):
     status=forms.ModelChoiceField(queryset=Status.objects.all(), required=False, label='Статус')
     type=forms.ModelChoiceField(queryset=Type.objects.all(), required=False, label='Тип')
 
+class StatusForm(forms.Form):
+    status = forms.CharField(max_length=15, required=True, label='Новый статус')
+
+
+class TypeForm(forms.Form):
+    type = forms.CharField(max_length=15, required=True, label='Новый тип')
+

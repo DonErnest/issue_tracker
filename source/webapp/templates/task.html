@@ -2,17 +2,17 @@
 {% block title %}Просмотр задачи{% endblock %}
 {% block content %}
     <div class = "d-flex flex-column pt-5 pb-5">
-            <h1>Задача</h1>
-            <h2><strong>Описание задачи:</strong> {{ task.summary }}</h2>
-            <h3><strong>Статус задачи:</strong> {{ task.status }}</h3>
-            <h3><strong>Тип задачи: </strong>{{ task.type }}</h3>
-            <p><strong>Дата создания:</strong> {{ task.created_at }}</p>
-            <p><strong>Подробно:</strong> {{ task.description|escape|linebreaks }}</p>
-            <div class = "btn-block">
-{#                <a class = "btn btn-warning" href="{% url 'update_view' task.pk %}">Обновить задачу</a>#}
-{#                <a class = "btn btn-warning" href="{% url 'action_delete' task.pk %}">Удалить задачу</a>#}
-                <a class = "btn btn-warning" href="{% url 'main_page' %}">Вернуться на главную страницу</a>
-            </div>
+        <h1>Задача</h1>
+        <h2><strong>Описание задачи:</strong> {{ task.summary }}</h2>
+        <h3><strong>Статус задачи:</strong> {{ task.status }}</h3>
+        <h3><strong>Тип задачи: </strong>{{ task.type }}</h3>
+        <p><strong>Дата создания:</strong> {{ task.created_at }}</p>
+        <p><strong>Подробно:</strong> {{ task.description|escape|linebreaks }}</p>
+        <div class = "btn-block">
+            <a href="{% url  'edit task' task.pk %}" class="card-link btn btn-success btn-sm">Редактировать</a>
+            <a href="{% url 'delete task' task.pk %}" class="card-link btn btn-success btn-sm">Удалить</a>
+            <a class = "btn btn-warning" href="{% url 'main_page' %}">Вернуться на главную страницу</a>
         </div>
+    </div>
     </div>
 {% endblock %}
