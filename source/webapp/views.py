@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import TemplateView, CreateView
+from django.views.generic import TemplateView, CreateView, UpdateView, DeleteView
 
 from webapp.forms import TaskForm, StatusForm, TypeForm
-from webapp.models import Task, Status, Type
+from webapp.models import Task, Status, Type as Type
 
 
 class IndexView(TemplateView):
@@ -15,6 +15,7 @@ class IndexView(TemplateView):
         context['status']= Status.objects.all()
         context['types']= Type.objects.all()
         return context
+
 
 class TaskView(TemplateView):
 
@@ -41,6 +42,7 @@ class CreateTaskView(TemplateView):
                                           type=form.cleaned_data['type'])
             return redirect('view task', pk=task.pk)
         return render(request, 'task_create.html', context={'form':form})
+
 
 class EditTaskView(TemplateView):
     def get(self, request, *args, **kwargs):
@@ -82,92 +84,53 @@ class DeleteTaskView(TemplateView):
         return redirect('main_page')
 
 
-class StatusAddView(TemplateView):
-    def get(self, request, *args, **kwargs):
-        form = StatusForm()
-        return render(request, 'status_add.html', context={'form':form})
+class StatusAddView(CreateView):
+    model = Status
+    form_class = StatusForm
+    template_name = 'status_add.html'
+    success_url = '/'
 
-    def post(self, request, *args, **kwargs):
-        form = StatusForm(data=request.POST)
-        if form.is_valid():
-            status = Status.objects.create(name=form.cleaned_data['status'])
-            return redirect('main_page')
-        return render(request, 'status_add.html', context={'form': form})
-
-class EditStatusView(CreateView):
-    def get(self, request, *args, **kwargs):
-        pk = kwargs.get('pk')
-        status = get_object_or_404(Status, pk=pk)
-        form = StatusForm(data={'status': status.name})
-        return render(request, 'status_edit.html', context={'form': form, 'status': status})
-
-    def post(self, request, *args, **kwargs):
-        pk = kwargs.get('pk')
-        status = get_object_or_404(Status, pk=pk)
-        form = StatusForm(data=request.POST)
-        if form.is_valid():
-            status.name = form.cleaned_data['status']
-            status.save()
-            return redirect('main_page')
-        else:
-            return render(request, 'status_edit.html', context={
-                'form': form, 'status': status
-            })
-
-class DeleteStatusView(TemplateView):
-    def get(self, request, *args, **kwargs):
-        pk = kwargs.get('pk')
-        status = get_object_or_404(Status, pk=pk)
-        return render(request, 'status_delete.html', context={'status': status})
-
-    def post(self, request, *args, **kwargs):
-        pk = kwargs.get('pk')
-        status = get_object_or_404(Status, pk=pk)
-        status.delete()
-        return redirect('main_page')
+    def form_valid(self, form):
+        return super().form_valid(form)
 
 
-class TypeAddView(TemplateView):
-    def get(self, request, *args, **kwargs):
-        form = TypeForm()
-        return render(request, 'type_add.html', context={'form':form})
+class EditStatusView(UpdateView):
+    model = Status
+    fields = ['name']
+    template_name = 'status_edit.html'
+    success_url = '/'
 
-    def post(self, request, *args, **kwargs):
-        form = TypeForm(data=request.POST)
-        if form.is_valid():
-            type = Type.objects.create(name=form.cleaned_data['type'])
-            return redirect('main_page')
-        return render(request, 'type_add.html', context={'form': form})
+    def form_valid(self, form):
+        return super().form_valid(form)
 
 
-class EditTypeView(CreateView):
-    def get(self, request, *args, **kwargs):
-        pk = kwargs.get('pk')
-        task_type = get_object_or_404(Type, pk=pk)
-        form = TypeForm(data={'type': task_type.name})
-        return render(request, 'type_edit.html', context={'form': form, 'type': task_type})
+class DeleteStatusView(DeleteView):
+    model = Status
+    template_name = 'status_delete.html'
+    success_url = '/'
 
-    def post(self, request, *args, **kwargs):
-        pk = kwargs.get('pk')
-        type = get_object_or_404(Type, pk=pk)
-        form = TypeForm(data=request.POST)
-        if form.is_valid():
-            type.name = form.cleaned_data['type']
-            type.save()
-            return redirect('main_page')
-        else:
-            return render(request, 'type_edit.html', context={
-                'form': form, 'type': type
-            })
 
-class DeleteTypeView(TemplateView):
-    def get(self, request, *args, **kwargs):
-        pk = kwargs.get('pk')
-        type = get_object_or_404(Type, pk=pk)
-        return render(request, 'type_delete.html', context={'type': type})
+class TypeAddView(CreateView):
+    model = Type
+    form_class = TypeForm
+    template_name = 'type_add.html'
+    success_url = '/'
 
-    def post(self, request, *args, **kwargs):
-        pk = kwargs.get('pk')
-        type = get_object_or_404(Type, pk=pk)
-        type.delete()
-        return redirect('main_page')
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+
+class EditTypeView(UpdateView):
+    model = Type
+    fields = ['name']
+    template_name = 'type_edit.html'
+    success_url = '/'
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+
+class DeleteTypeView(DeleteView):
+    model = Type
+    template_name = 'type_delete.html'
+    success_url = '/'
