@@ -3,18 +3,14 @@ from django.views.generic import View, TemplateView
 
 from webapp.forms import TaskForm
 from webapp.models import Task
+from webapp.views.detailview import DetailView
 
 
-
-class TaskView(TemplateView):
+class TaskView(DetailView):
 
     template_name = 'task_templates/task.html'
-
-    def get_context_data(self, **kwargs):
-        pk = kwargs.get('pk')
-        context = super().get_context_data(**kwargs)
-        context['task'] = get_object_or_404(Task, pk=pk)
-        return context
+    model = Task
+    context_key = 'task'
 
 
 class CreateTaskView(View):
