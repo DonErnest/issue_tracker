@@ -13,6 +13,7 @@
 {% endblock %}
 {% block content %}
         <h1 class = "text-center pt-3">Задачи</h1>
+        {% include 'partial/pagination.html' %}
         <div class="mt-1 mb-1 row justify-content-center">
             {% for task in tasks %}
                 <div class="card ml-1 mr-1 mb-1" style="width: 18rem;">
@@ -31,6 +32,7 @@
                 </div>
             {% endfor %}
         </div>
+    {% include 'partial/pagination.html' %}
     {% include 'partial/modal_window_status.html' %}
     {% include 'partial/modal_window_types.html' %}
 {% endblock %}
