@@ -1,10 +1,9 @@
-from django.db.models import ProtectedError
-from django.shortcuts import render
-from django.views.generic import CreateView, UpdateView, DeleteView
+from django.urls import reverse
+from django.views.generic import CreateView
 
 from webapp.forms import StatusForm
 from webapp.models import Status
-
+from webapp.views.baseclass import UpdateView, DeleteView
 
 
 class StatusAddView(CreateView):
@@ -19,21 +18,14 @@ class StatusAddView(CreateView):
 
 class EditStatusView(UpdateView):
     model = Status
-    fields = ['name']
     template_name = 'status_templates/status_edit.html'
-    success_url = '/'
-
-    def form_valid(self, form):
-        return super().form_valid(form)
-
+    form_class = StatusForm
+    context_key = 'status'
+    def get_redirect_url(self):
+        return reverse('main_page')
 
 class DeleteStatusView(DeleteView):
     model = Status
     template_name = 'status_templates/status_delete.html'
-    success_url = '/'
-
-    def post(self, request, *args, **kwargs):
-        try:
-            return self.delete(request, *args, **kwargs)
-        except ProtectedError:
-            return render(request, 'protected_error.html')
+    context_key = 'status'
+    redirect_url = '/'

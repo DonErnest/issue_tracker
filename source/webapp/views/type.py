@@ -1,9 +1,9 @@
-from django.db.models import ProtectedError
-from django.shortcuts import render
-from django.views.generic import CreateView, UpdateView, DeleteView
+from django.urls import reverse
+from django.views.generic import CreateView
 
 from webapp.forms import TypeForm
 from webapp.models import Type as Type
+from webapp.views.baseclass import UpdateView, DeleteView
 
 
 class TypeAddView(CreateView):
@@ -18,21 +18,17 @@ class TypeAddView(CreateView):
 
 class EditTypeView(UpdateView):
     model = Type
-    fields = ['name']
     template_name = 'type_templates/type_edit.html'
-    success_url = '/'
+    redirect_url = '/'
+    form_class = TypeForm
+    context_key = 'type'
 
-    def form_valid(self, form):
-        return super().form_valid(form)
+    def get_redirect_url(self):
+        return reverse('main_page')
 
 
 class DeleteTypeView(DeleteView):
     model = Type
     template_name = 'type_templates/type_delete.html'
-    success_url = '/'
-
-    def post(self, request, *args, **kwargs):
-        try:
-            return self.delete(request, *args, **kwargs)
-        except ProtectedError:
-            return render(request, 'protected_error.html')
+    context_key = 'type'
+    redirect_url = '/'
