@@ -61,6 +61,7 @@ class DeleteView(TemplateView):
     redirect_url = None
     object = None
     context_key = 'object'
+    confirmation = True
 
     def get_redirect_url(self):
         return self.redirect_url
@@ -68,7 +69,11 @@ class DeleteView(TemplateView):
     def get(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
         self.object = get_object_or_404(self.model, pk=pk)
-        return render(request, self.template_name, context={self.context_key: self.object})
+        if self.confirmation:
+            return render(request, self.template_name, context={self.context_key: self.object})
+        else:
+            self.object.delete()
+            return redirect(self.redirect_url)
 
     def post(self, request, *args, **kwargs):
         pk = kwargs.get('pk')

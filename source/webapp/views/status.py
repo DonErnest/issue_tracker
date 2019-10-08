@@ -29,3 +29,4 @@ class DeleteStatusView(DeleteView):
     template_name = 'status_templates/status_delete.html'
     context_key = 'status'
     redirect_url = '/'
+    confirmation = False
