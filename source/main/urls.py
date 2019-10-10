@@ -2,7 +2,8 @@ from django.contrib import admin
 from django.urls import path
 
 from webapp.views import IndexView, TaskView, CreateTaskView, EditTaskView, DeleteTaskView, StatusAddView, TypeAddView, \
-    EditStatusView, DeleteStatusView, EditTypeView, DeleteTypeView, ProjectsView, ProjectView
+    EditStatusView, DeleteStatusView, EditTypeView, DeleteTypeView, ProjectsView, ProjectView, ProjectCreateView, \
+    ProjectEditView, ProjectDeleteView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -12,11 +13,14 @@ urlpatterns = [
     path('task/<int:pk>/edit/', EditTaskView.as_view(), name='edit task'),
     path('task/<int:pk>/delete/', DeleteTaskView.as_view(), name='delete task'),
     path('status/add/', StatusAddView.as_view(), name='add status'),
-    path('status/<int:pk>/edit', EditStatusView.as_view(), name='edit status'),
-    path('status/<int:pk>/delete', DeleteStatusView.as_view(), name='delete status'),
+    path('status/<int:pk>/edit/', EditStatusView.as_view(), name='edit status'),
+    path('status/<int:pk>/delete/', DeleteStatusView.as_view(), name='delete status'),
     path('types/add/', TypeAddView.as_view(), name='add type'),
-    path('types/<int:pk>/edit', EditTypeView.as_view(), name='edit type'),
-    path('types/<int:pk>/delete', DeleteTypeView.as_view(), name='delete type'),
+    path('types/<int:pk>/edit/', EditTypeView.as_view(), name='edit type'),
+    path('types/<int:pk>/delete/', DeleteTypeView.as_view(), name='delete type'),
     path('projects/', ProjectsView.as_view(), name='view projects'),
-    path('project/<int:pk>/', ProjectView.as_view(), name='view project')
+    path('project/<int:pk>/', ProjectView.as_view(), name='view project'),
+    path('project/create/', ProjectCreateView.as_view(), name='create project'),
+    path('project/<int:pk>/edit/', ProjectEditView.as_view(), name='edit project'),
+    path('project/<int:pk>/delete/', ProjectDeleteView.as_view(), name='delete project')
 ]

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Удаление проекта{% endblock %}
+{% block content %}
+    <div class = "d-flex flex-column justify-content-center pt-5 pb-5">
+        <h1>Удаление проекта</h1>
+        <h2><strong>Название проекта: </strong> {{ project.name }}</h2>
+        <h5>Вы уверены, что хотите удалить данный проект?</h5>
+        <form method="POST" action="{% url 'delete project' project.pk %}">
+            {% csrf_token %}
+            <div class = "btn-group pl-5">
+                <input type="submit" class  = 'btn btn-outline-warning' value="Confirm">
+                <a type="submit" class  = 'btn btn-outline-warning' href="{% url 'view project' project.pk %}">Cancel</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

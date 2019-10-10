@@ -1,13 +1,14 @@
 from django import forms
 
-from webapp.models import Status, Type, Task
+from webapp.models import Status, Type, Task, Project
 
 
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ['summary', 'description', 'status', 'type']
+        fields = ['summary', 'description', 'status', 'type', 'projects']
         labels = {'summary': 'Краткое описание', 'description': 'Подробно', 'status': 'Статус', 'type': 'Тип'}
+
 
 class StatusForm(forms.ModelForm):
     class Meta:
@@ -23,3 +24,8 @@ class TypeForm(forms.ModelForm):
         labels = {'name': 'Новый тип'}
 
 
+class ProjectForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields=['name', 'description']
+        labels = {'name': 'Название проекта', 'description': 'Описание проекта'}

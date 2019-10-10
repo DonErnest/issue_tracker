@@ -4,7 +4,14 @@
     <div class = "d-flex flex-column pt-5 pb-5">
         <h1>Задача</h1>
         <h2><strong>Описание задачи:</strong> {{ task.summary }}</h2>
-        <h2><strong>Проекты: </strong> {{ task.projects }}</h2>
+        <h2>
+            <strong>Проект: </strong>
+                {% if task.projects %}
+                    <a href="{%  url 'view project' task.projects.pk %}">{{ task.projects }}</a>
+                {% else %}
+                    Не назначено
+                {% endif %}
+        </h2>
         <h3><strong>Статус задачи:</strong> {{ task.status }}</h3>
         <h3><strong>Тип задачи: </strong>{{ task.type }}</h3>
         <p><strong>Дата создания:</strong> {{ task.created_at }}</p>

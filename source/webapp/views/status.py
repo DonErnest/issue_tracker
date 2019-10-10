@@ -24,6 +24,7 @@ class EditStatusView(UpdateView):
     def get_redirect_url(self):
         return reverse('main_page')
 
+
 class DeleteStatusView(DeleteView):
     model = Status
     template_name = 'status_templates/status_delete.html'
