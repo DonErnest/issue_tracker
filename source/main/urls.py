@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path
 
 from webapp.views import IndexView, TaskView, CreateTaskView, EditTaskView, DeleteTaskView, StatusAddView, TypeAddView, \
-    EditStatusView, DeleteStatusView, EditTypeView, DeleteTypeView
+    EditStatusView, DeleteStatusView, EditTypeView, DeleteTypeView, ProjectsView, ProjectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
