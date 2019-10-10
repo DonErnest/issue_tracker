@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Список проектов{% endblock %}
+{% block menu %}
+    <a href="{% url 'create task' %}" class="nav-link">Создать задачу</a>
+    <a href="{% url 'main_page' %}" class="nav-link">К задачам</a>
+{% endblock %}
+{% block menu_buttons %}
+{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+{% endblock %}
+{% block content %}
+        <h1 class = "text-center pt-3">Проекты</h1>
+        {% include 'partial/pagination.html' %}
+        <div class="mt-1 mb-1 row justify-content-center">
+            {% for project in projects %}
+                <div class="card ml-1 mr-1 mb-1" style="width: 18rem;">
+                    <div class="card-header">
+                        <h5 class="card-title text-center">{{ project.name }}</h5>
+                    </div>
+                    <div class="card-body ">
+                        <h6><strong>Создано: </strong>{{ project.created_at }}</h6>
+                        <h6><strong>Обновлено: </strong>{{ project.updated_at }}</h6>
+                    </div>
+                    <div class="btn-group">
+                        <a href="{% url 'view project' project.pk %}" class="card-link btn btn-success btn-sm">Просмотр</a>
+{#                        <a href="{% url  'edit task' task.pk %}" class="card-link btn btn-success btn-sm">Редактировать</a>#}
+{#                        <a href="{% url 'delete task' task.pk %}" class="card-link btn btn-success btn-sm">Удалить</a>#}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% include 'partial/pagination.html' %}
+{% endblock %}

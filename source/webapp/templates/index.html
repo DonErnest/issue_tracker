@@ -3,6 +3,7 @@
 {% block title %}Главная{% endblock %}
 {% block menu %}
     <a href="{% url 'create task' %}" class="nav-link">Создать задачу</a>
+    <a href="{% url 'view projects' %}" class="nav-link">К проектам</a>
 {% endblock %}
 {% block menu_buttons %}
     <button type="button" class="nav-link" data-toggle="modal" data-target="#statuslist">Список статусов</button>

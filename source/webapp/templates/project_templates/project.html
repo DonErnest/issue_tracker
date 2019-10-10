@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Просмотр задачи{% endblock %}
+{% block content %}
+    <div class = "d-flex flex-column pt-5 pb-5">
+        <h1>Проект</h1>
+        <h2><strong>Описание проекта:</strong> {{ project.name }}</h2>
+        <p><strong>Дата создания:</strong> {{ project.created_at }}</p>
+        <p><strong>Дата обновления: </strong> {{ project.updated_at }}</p>
+        <p><strong>Подробно:</strong> {{ project.description|escape|linebreaks }}</p>
+        <div class = "btn-block">
+{#            <a href="{% url  'edit task' task.pk %}" class="card-link btn btn-success btn-sm">Редактировать</a>#}
+{#            <a href="{% url 'delete task' task.pk %}" class="card-link btn btn-success btn-sm">Удалить</a>#}
+            <a class = "btn btn-warning" href="{% url 'main_page' %}">Вернуться на главную страницу</a>
+            <a class = "btn btn-warning" href="{% url 'view projects' %}">Вернуться к списку проектов</a>
+        </div>
+    </div>
+    </div>
+{% endblock %}
