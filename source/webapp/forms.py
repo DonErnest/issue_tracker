@@ -6,8 +6,9 @@ from webapp.models import Status, Type, Task, Project
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ['summary', 'description', 'status', 'type', 'projects']
-        labels = {'summary': 'Краткое описание', 'description': 'Подробно', 'status': 'Статус', 'type': 'Тип'}
+        fields = ['summary', 'description', 'status', 'type', 'project']
+        labels = {'summary': 'Краткое описание', 'description': 'Подробно', 'status': 'Статус', 'type': 'Тип',
+                  'project': 'Проект'}
 
 
 class StatusForm(forms.ModelForm):
@@ -27,5 +28,5 @@ class TypeForm(forms.ModelForm):
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields=['name', 'description']
+        fields=['name', 'description', 'status']
         labels = {'name': 'Название проекта', 'description': 'Описание проекта'}

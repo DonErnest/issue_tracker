@@ -1,9 +1,9 @@
 from django.urls import reverse
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView, DeleteView
 
 from webapp.forms import TypeForm
 from webapp.models import Type as Type
-from webapp.views.baseclass import UpdateView, DeleteView
+# from webapp.views.baseclass import UpdateView, DeleteView
 
 
 class TypeAddView(CreateView):
@@ -19,16 +19,13 @@ class TypeAddView(CreateView):
 class EditTypeView(UpdateView):
     model = Type
     template_name = 'type_templates/type_edit.html'
-    redirect_url = '/'
+    success_url = '/'
     form_class = TypeForm
     context_key = 'type'
-
-    def get_redirect_url(self):
-        return reverse('main_page')
 
 
 class DeleteTypeView(DeleteView):
     model = Type
     template_name = 'type_templates/type_delete.html'
     context_key = 'type'
-    redirect_url = '/'
+    success_url = '/'

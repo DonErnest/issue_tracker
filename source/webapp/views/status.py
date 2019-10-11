@@ -1,9 +1,8 @@
 from django.urls import reverse
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView, DeleteView
 
 from webapp.forms import StatusForm
 from webapp.models import Status
-from webapp.views.baseclass import UpdateView, DeleteView
 
 
 class StatusAddView(CreateView):
@@ -21,7 +20,7 @@ class EditStatusView(UpdateView):
     template_name = 'status_templates/status_edit.html'
     form_class = StatusForm
     context_key = 'status'
-    def get_redirect_url(self):
+    def get_success_url(self):
         return reverse('main_page')
 
 
@@ -29,5 +28,4 @@ class DeleteStatusView(DeleteView):
     model = Status
     template_name = 'status_templates/status_delete.html'
     context_key = 'status'
-    redirect_url = '/'
-    confirmation = False
+    success_url = '/'

@@ -6,8 +6,8 @@
         <h2><strong>Описание задачи:</strong> {{ task.summary }}</h2>
         <h2>
             <strong>Проект: </strong>
-                {% if task.projects %}
-                    <a href="{%  url 'view project' task.projects.pk %}">{{ task.projects }}</a>
+                {% if task.project %}
+                    <a href="{%  url 'view project' task.project.pk %}">{{ task.project }}</a>
                 {% else %}
                     Не назначено
                 {% endif %}
@@ -17,8 +17,13 @@
         <p><strong>Дата создания:</strong> {{ task.created_at }}</p>
         <p><strong>Подробно:</strong> {{ task.description|escape|linebreaks }}</p>
         <div class = "btn-block">
-            <a href="{% url  'edit task' task.pk %}" class="card-link btn btn-success btn-sm">Редактировать</a>
-            <a href="{% url 'delete task' task.pk %}" class="card-link btn btn-success btn-sm">Удалить</a>
+            {% if task.project.status == 'closed' %}
+{#                <span class="card-link btn btn-success btn-sm">Редактировать</span>#}
+{#                <span class="card-link btn btn-success btn-sm">Удалить</span>#}
+            {% else %}
+                <a href="{% url  'edit task' task.pk %}" class="card-link btn btn-success btn-sm">Редактировать</a>
+                <a href="{% url 'delete task' task.pk %}" class="card-link btn btn-success btn-sm">Удалить</a>
+            {% endif %}
             <a class = "btn btn-warning" href="{% url 'main_page' %}">Вернуться на главную страницу</a>
         </div>
     </div>

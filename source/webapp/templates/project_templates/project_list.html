@@ -15,24 +15,21 @@
 {% block content %}
     <h1 class = "text-center pt-3">Проекты</h1>
     {% include 'partial/pagination.html' %}
-
+    <h2 class = "text-center pt-2">Активные</h2>
     <div class="mt-1 mb-1 row justify-content-center">
-        {% for project in projects %}
-            <div class="card ml-1 mr-1 mb-1" style="width: 18rem;">
-                <div class="card-header">
-                    <h5 class="card-title text-center">{{ project.name }}</h5>
-                </div>
-                <div class="card-body ">
-                    <h6><strong>Создано: </strong>{{ project.created_at }}</h6>
-                    <h6><strong>Обновлено: </strong>{{ project.updated_at }}</h6>
-                </div>
-                <div class="btn-group">
-                    <a href="{% url 'view project' project.pk %}" class="card-link btn btn-success btn-sm">Просмотр</a>
-                    {#                        <a href="{% url  'edit task' task.pk %}" class="card-link btn btn-success btn-sm">Редактировать</a>#}
-                    {#                        <a href="{% url 'delete task' task.pk %}" class="card-link btn btn-success btn-sm">Удалить</a>#}
-                </div>
-            </div>
+        {% for project in projects_active %}
+            {% include 'partial/project_card.html' %}
         {% endfor %}
     </div>
+    <h2 class = "text-center pt-2">Закрытые</h2>
+    {% if projects_closed %}
+        <div class="mt-1 mb-1 row justify-content-center">
+            {% for project in projects_closed %}
+                {% include 'partial/project_card.html' %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <h3 class="text-center pt-2">Нет закрытых проектов</h3>
+    {% endif %}
     {% include 'partial/pagination.html' %}
 {% endblock %}

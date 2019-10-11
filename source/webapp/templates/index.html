@@ -27,8 +27,11 @@
                     </div>
                     <div class="btn-group">
                         <a href="{% url 'view task' task.pk %}" class="card-link btn btn-success btn-sm">Просмотр</a>
-                        <a href="{% url  'edit task' task.pk %}" class="card-link btn btn-success btn-sm">Редактировать</a>
-                        <a href="{% url 'delete task' task.pk %}" class="card-link btn btn-success btn-sm">Удалить</a>
+                        {% if task.project.status == 'closed' %}
+                        {% else %}
+                            <a href="{% url  'edit task' task.pk %}" class="card-link btn btn-success btn-sm">Редактировать</a>
+                            <a href="{% url 'delete task' task.pk %}" class="card-link btn btn-success btn-sm">Удалить</a>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}
