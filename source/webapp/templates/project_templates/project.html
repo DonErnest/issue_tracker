@@ -8,15 +8,16 @@
         <p><strong>Дата создания:</strong> {{ project.created_at }}</p>
         <p><strong>Дата обновления: </strong> {{ project.updated_at }}</p>
         <p><strong>Подробно:</strong> {{ project.description|escape|linebreaks }}</p>
-        {% for task in tasks %}
-            <p><strong>Задача: </strong> {{ task }}</p>
-        {% endfor %}
-        <div class = "btn-block">
+        <div class = "btn-block mb-3">
             <a href="{% url  'edit project' project.pk %}" class="card-link btn btn-success btn-sm">Редактировать</a>
             <a href="{% url 'delete project' project.pk %}" class="card-link btn btn-success btn-sm">Удалить</a>
             <a class = "btn btn-warning" href="{% url 'main_page' %}">Вернуться на главную страницу</a>
             <a class = "btn btn-warning" href="{% url 'view projects' %}">Вернуться к списку проектов</a>
         </div>
+        {% if is_paginated %}
+            {% include 'partial/pagination.html' %}
+        {% endif %}
+        {% include 'partial/task_list.html' %}
     </div>
     </div>
 {% endblock %}

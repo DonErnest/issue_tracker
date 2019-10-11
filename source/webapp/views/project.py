@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -28,7 +29,14 @@ class ProjectView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         project = self.object
-        context['tasks'] = self.object.tasks.filter(project_id = project.pk)
+        tasks = project.tasks.order_by('-created_at')
+        paginator = Paginator(tasks, 3, 1)
+        page_number = self.request.GET.get('page', 1)
+        page = paginator.get_page(page_number)
+        context['paginator'] = paginator
+        context['page_obj'] = page
+        context['tasks'] = page.object_list
+        context['is_paginated'] = page.has_other_pages()
         return context
 
 
@@ -56,7 +64,6 @@ class ProjectEditView(UpdateView):
 class ProjectDeleteView(DeleteView):
     template_name = 'project_templates/project_delete.html'
     model = Project
-    form_class = ProjectForm
     success_url = '/projects/'
 
     def delete(self, request, *args, **kwargs):
