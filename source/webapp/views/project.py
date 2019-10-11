@@ -10,9 +10,6 @@ from webapp.models import Project, PROJECT_STATUS_DEFAULT
 class ProjectsView(ListView):
     template_name = 'project_templates/project_list.html'
     model = Project
-    # context_object_name = 'projects'
-    paginate_by = 6
-    paginate_orphans = 1
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)

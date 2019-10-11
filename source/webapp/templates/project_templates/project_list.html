@@ -14,7 +14,6 @@
 {% endblock %}
 {% block content %}
     <h1 class = "text-center pt-3">Проекты</h1>
-    {% include 'partial/pagination.html' %}
     <h2 class = "text-center pt-2">Активные</h2>
     <div class="mt-1 mb-1 row justify-content-center">
         {% for project in projects_active %}
@@ -31,5 +30,4 @@
     {% else %}
         <h3 class="text-center pt-2">Нет закрытых проектов</h3>
     {% endif %}
-    {% include 'partial/pagination.html' %}
 {% endblock %}
