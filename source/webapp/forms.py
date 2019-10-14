@@ -30,3 +30,6 @@ class ProjectForm(forms.ModelForm):
         model = Project
         fields=['name', 'description', 'status']
         labels = {'name': 'Название проекта', 'description': 'Описание проекта'}
+
+class SearchForm(forms.Form):
+    search = forms.CharField(max_length=100, required=False, label='Найти')
