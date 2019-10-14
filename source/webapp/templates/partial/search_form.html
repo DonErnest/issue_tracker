@@ -2,8 +2,7 @@
 {% csrf_token %}
 
 {{ form.search|add_class:'form-control mr-sm-2' }}
-{#<input class="" type="search" value="Search" placeholder="Search" aria-label="Search">#}
 {% for error in form.search.errors %}
-    <p class="form-errorr">{{ error }}</p>
+    <p class="form-error">{{ error }}</p>
 {% endfor %}
 <button class="btn btn-outline-success my-2 my-sm-0 mr-1" type="submit">Найти</button>

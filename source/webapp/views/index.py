@@ -21,7 +21,7 @@ class IndexView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         if self.search_value:
-            query = Q(summary__icontains=self.search_value) | Q(description__icontains=self.search_value)
+            query = Q(summary__icontains=self.search_value.lower()) | Q(description__icontains=self.search_value.lower())
             queryset = queryset.filter(query)
         return queryset
 
@@ -33,8 +33,6 @@ class IndexView(ListView):
         context['status']= Status.objects.all()
         context['types']= Type.objects.all()
         return context
-
-
 
     def get_search_form(self):
         return SearchForm(self.request.GET)

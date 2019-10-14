@@ -8,6 +8,9 @@
 {% endblock %}
 {% block menu_buttons %}
     <a class = "nav-link" href="{% url 'create project' %}">Создать проект</a>
+    <form class="form-inline my-2 my-lg-0" action="{% url 'view projects' %}" method="get">
+        {% include 'partial/search_form.html' %}
+    </form>
 {% endblock %}
 {% block styles %}
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
@@ -15,19 +18,27 @@
 {% block content %}
     <h1 class = "text-center pt-3">Проекты</h1>
     <h2 class = "text-center pt-2">Активные</h2>
-    <div class="mt-1 mb-1 row justify-content-center">
-        {% for project in projects_active %}
-            {% include 'partial/project_card.html' %}
-        {% endfor %}
-    </div>
-    <h2 class = "text-center pt-2">Закрытые</h2>
-    {% if projects_closed %}
+    {% if projects %}
         <div class="mt-1 mb-1 row justify-content-center">
-            {% for project in projects_closed %}
+            {% for project in projects %}
                 {% include 'partial/project_card.html' %}
             {% endfor %}
         </div>
     {% else %}
-        <h3 class="text-center pt-2">Нет закрытых проектов</h3>
+        <div class="mt-1 mb-1 row justify-content-center">
+            {% for project in projects_active %}
+                {% include 'partial/project_card.html' %}
+            {% endfor %}
+        </div>
+        <h2 class = "text-center pt-2">Закрытые</h2>
+        {% if projects_closed %}
+            <div class="mt-1 mb-1 row justify-content-center">
+                {% for project in projects_closed %}
+                    {% include 'partial/project_card.html' %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <h3 class="text-center pt-2">Нет закрытых проектов</h3>
+        {% endif %}
     {% endif %}
 {% endblock %}
