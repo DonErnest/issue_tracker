@@ -100,7 +100,7 @@
   "pk": 13,
   "fields": {
     "summary": "\u041f\u0435\u0440\u0435\u043f\u0438\u0441\u0430\u0442\u044c \u0441\u043e\u0437\u0434\u0430\u043d\u0438\u0435 \u0437\u0430\u0434\u0430\u0447",
-    "description": "\u043d\u0443\u0436\u043d\u043e \u043f\u0435\u0440\u0435\u043f\u0438\u0441\u0430\u0442\u044c \u0441\u043e\u0437\u0434\u0430\u043d\u0438\u0435 \u0437\u0430\u0434\u0430\u0447 \u043f\u043e\u0434 \u043e\u0431\u0449\u0438\u0435 \u043a\u043b\u0430\u0441\u0441\u044b Django",
+    "description": "\u043d\u0443\u0436\u043d\u043e \u043f\u0435\u0440\u0435\u043f\u0438\u0441\u0430\u0442\u044c \u0432\u0441\u0451 \u0441\u043e\u0437\u0434\u0430\u043d\u0438\u0435 \u0437\u0430\u0434\u0430\u0447 \u043f\u043e\u0434 \u043e\u0431\u0449\u0438\u0435 \u043a\u043b\u0430\u0441\u0441\u044b Django",
     "status": 5,
     "type": 1,
     "created_at": "2019-10-07T14:53:26.047Z",
@@ -177,6 +177,30 @@
     "type": 4,
     "created_at": "2019-10-10T16:10:09.957Z",
     "project": 3
+  }
+},
+{
+  "model": "webapp.task",
+  "pk": 32,
+  "fields": {
+    "summary": "\u041f\u043e\u0434\u043d\u044f\u0442\u044c \u0432\u0441\u0435\u043c \u0437\u0430\u0440\u043f\u043b\u0430\u0442\u044b",
+    "description": "\u043d\u0443\u0436\u043d\u043e \u043f\u043e\u0434\u043d\u044f\u0442\u044c \u0432\u0441\u0435\u043c \u0437\u0430\u0440\u043f\u043b\u0430\u0442\u044b, \u0447\u0442\u043e\u0431\u044b \u0432\u043e\u0440\u043e\u0432\u0441\u0442\u0432\u043e \u043f\u043e\u0442\u0435\u0440\u044f\u043b\u043e \u0441\u043c\u044b\u0441\u043b",
+    "status": 4,
+    "type": 3,
+    "created_at": "2019-10-15T11:12:56.751Z",
+    "project": 4
+  }
+},
+{
+  "model": "webapp.task",
+  "pk": 33,
+  "fields": {
+    "summary": "\u0420\u0430\u0441\u0441\u0442\u0440\u0435\u043b\u044f\u0442\u044c \u0441\u0430\u043c\u044b\u0445 \u0432\u043e\u0440\u043e\u0432\u0438\u0442\u044b\u0445",
+    "description": "\u043d\u0430\u0434\u043e \u0432\u0441\u0435\u0433\u043e-\u043d\u0430\u0432\u0441\u0435\u0433\u043e \u0440\u0430\u0441\u0441\u0442\u0440\u0435\u043b\u044f\u0442\u044c \u0441\u0430\u043c\u044b\u0445 \u0432\u043e\u0440\u043e\u0432\u0438\u0442\u044b\u0445. \u044d\u0442\u043e \u0441\u0430\u043c\u0430\u044f \u043f\u0440\u043e\u0441\u0442\u0430\u044f \u0447\u0430\u0441\u0442\u044c \u0437\u0430\u0434\u0430\u0447\u0438",
+    "status": 4,
+    "type": 2,
+    "created_at": "2019-10-15T11:13:41.254Z",
+    "project": 4
   }
 },
 {
@@ -280,11 +304,22 @@
   }
 },
 {
+  "model": "webapp.project",
+  "pk": 6,
+  "fields": {
+    "name": "Django cha cha cha",
+    "description": "",
+    "created_at": "2019-10-14T17:14:39.514Z",
+    "updated_at": "2019-10-14T17:14:39.514Z",
+    "status": "active"
+  }
+},
+{
   "model": "auth.user",
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$150000$oO5SWYIwIy3k$o8uiF45H8JrPOpM2n5Hg90WbUpfQcOm0s4N7I2sew+4=",
-    "last_login": "2019-10-11T12:14:29.638Z",
+    "last_login": "2019-10-15T11:11:54.362Z",
     "is_superuser": true,
     "username": "ernest_aitiev",
     "first_name": "",
