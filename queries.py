@@ -7,7 +7,7 @@ from webapp.models import Type
 
 
 #Задачи, закрытые за последний месяц (задачи со статусом "завершено" , созданные за последние 30 дней)
-q_1 = Q(status__name='завершено') | Q(created_at__lte=date.today(), created_at__gte=date.today()-timedelta(days=30))
+q_1 = Q(status__name='завершено') & Q(updated_at__lte=date.today(), updated_at__gte=date.today()-timedelta(days=30))
 Task.objects.filter(q_1)
 
 #Типы задач, встречающиеся в указанном проекте

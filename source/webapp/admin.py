@@ -4,11 +4,11 @@ from webapp.models import Task, Type, Status, Project
 
 
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ['id', 'summary', 'description', 'status', 'type','created_at', 'project']
+    list_display = ['id', 'summary', 'description', 'status', 'type','created_at','updated_at', 'project']
     list_display_links = ['id', 'summary']
     list_filter = ['type', 'status']
     search_fields = ['summary', 'description', 'project']
-    fields = ['summary', 'description', 'status', 'type', 'created_at', 'project']
+    fields = ['summary', 'description', 'status', 'type', 'created_at', 'updated_at', 'project']
     readonly_fields = ['created_at']
 
 class ProjectAdmin(admin.ModelAdmin):

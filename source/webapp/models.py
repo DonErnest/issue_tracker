@@ -11,6 +11,7 @@ class Task(models.Model):
     type = models.ForeignKey('webapp.Type',on_delete=models.PROTECT, related_name='tasks', verbose_name='type',
                              null=True, blank=True)
     created_at= models.DateTimeField(auto_now_add=True, verbose_name='created')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Время изменения')
     project = models.ForeignKey('webapp.Project', on_delete=models.CASCADE, related_name='tasks', verbose_name='projects', null=True, blank=False)
 
     def __str__(self):
