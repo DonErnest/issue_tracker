@@ -22,7 +22,7 @@ class ProjectsView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         if self.search_value:
-            query = Q(name__icontains=self.search_value)
+            query = Q(name__icontains=self.search_value.lower())
             queryset = queryset.filter(query)
         return queryset
 
@@ -43,9 +43,6 @@ class ProjectsView(ListView):
         if self.form.is_valid():
             return self.form.cleaned_data['search']
         return None
-
-
-
 
 
 class ProjectView(DetailView):
