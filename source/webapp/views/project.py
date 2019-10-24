@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpResponseRedirect
@@ -65,7 +66,7 @@ class ProjectView(DetailView):
 
 
 
-class ProjectCreateView(CreateView):
+class ProjectCreateView(LoginRequiredMixin, CreateView):
     template_name = 'project_templates/project_create.html'
     model = Project
     context_object_name = 'form'
@@ -75,7 +76,7 @@ class ProjectCreateView(CreateView):
         return reverse('view project', kwargs={'pk':self.object.pk})
 
 
-class ProjectEditView(UpdateView):
+class ProjectEditView(LoginRequiredMixin, UpdateView):
     template_name = 'project_templates/project_update.html'
     model = Project
     context_object_name = 'project'
@@ -85,7 +86,7 @@ class ProjectEditView(UpdateView):
         return reverse('view project', kwargs={'pk': self.object.pk})
 
 
-class ProjectDeleteView(DeleteView):
+class ProjectDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'project_templates/project_delete.html'
     model = Project
     success_url = '/projects/'

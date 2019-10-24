@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.views.generic import CreateView, UpdateView, DeleteView
 
@@ -6,7 +7,7 @@ from webapp.models import Type as Type
 # from webapp.views.baseclass import UpdateView, DeleteView
 
 
-class TypeAddView(CreateView):
+class TypeAddView(LoginRequiredMixin, CreateView):
     model = Type
     form_class = TypeForm
     template_name = 'type_templates/type_add.html'
@@ -16,7 +17,7 @@ class TypeAddView(CreateView):
         return super().form_valid(form)
 
 
-class EditTypeView(UpdateView):
+class EditTypeView(LoginRequiredMixin, UpdateView):
     model = Type
     template_name = 'type_templates/type_edit.html'
     success_url = '/'
@@ -24,7 +25,7 @@ class EditTypeView(UpdateView):
     context_key = 'type'
 
 
-class DeleteTypeView(DeleteView):
+class DeleteTypeView(LoginRequiredMixin, DeleteView):
     model = Type
     template_name = 'type_templates/type_delete.html'
     context_key = 'type'

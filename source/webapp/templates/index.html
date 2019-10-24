@@ -4,6 +4,16 @@
 {% block menu %}
     <a href="{% url 'create task' %}" class="nav-link">Создать задачу</a>
     <a href="{% url 'view projects' %}" class="nav-link">К проектам</a>
+    {% if not request.user.is_authenticated %}
+        <span class="ml-3 navbar-text">Привет, холоп! Что пришел?</span>
+        <li class="nav-item">
+            <a href="{% url 'accounts:login' %}" class="nav-link">Войти в трекер</a>
+        </li>
+    {% else %}
+        <li class="nav-item">
+            <a href="{% url 'accounts:logout' %}" class="nav-link">Покинуть трекер</a>
+        </li>
+    {% endif %}
 {% endblock %}
 {% block menu_buttons %}
     <form class="form-inline my-2 my-lg-0" action="{% url 'main_page' %}" method="get">

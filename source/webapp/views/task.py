@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
 from django.urls import reverse
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
@@ -13,7 +14,7 @@ class TaskView(DetailView):
     context_key = 'task'
 
 
-class CreateTaskView(CreateView):
+class CreateTaskView(LoginRequiredMixin, CreateView):
     model = Task
     form_class = TaskForm
     template_name = 'task_templates/task_create.html'
@@ -34,7 +35,7 @@ class CreateTaskView(CreateView):
             return self.form_invalid(form)
 
 
-class EditTaskView(UpdateView):
+class EditTaskView(LoginRequiredMixin, UpdateView):
     model = Task
     form_class = TaskForm
     template_name = 'task_templates/task_edit.html'
@@ -56,7 +57,7 @@ class EditTaskView(UpdateView):
             return self.form_invalid(form)
 
 
-class DeleteTaskView(DeleteView):
+class DeleteTaskView(LoginRequiredMixin, DeleteView):
     model = Task
     template_name = 'task_templates/task_delete.html'
     context_key = 'task'
