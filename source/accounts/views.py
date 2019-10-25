@@ -21,7 +21,7 @@ def login_view(request, *args, **kwargs):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            if redirect_path == 'None':
+            if redirect_path == 'None' or redirect_path=='':
                 redirect_path = 'webapp:main_page'
             return redirect(redirect_path)
         else:
