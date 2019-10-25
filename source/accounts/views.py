@@ -2,10 +2,11 @@ import urllib
 from urllib.parse import urlencode
 
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.views import LoginView, LogoutView
-from django.http import HttpResponseRedirect
+from django.contrib.auth.models import User
+from django.contrib.auth.views import LogoutView
 from django.shortcuts import render, redirect
-from django.urls import reverse
+
+from accounts.forms import SignUpForm
 
 
 def login_view(request, *args, **kwargs):
@@ -31,3 +32,18 @@ def login_view(request, *args, **kwargs):
 
 class UserLogoutView(LogoutView):
     next_page = 'webapp:main_page'
+
+
+def register_view(request):
+    if request.method == 'GET':
+        form = SignUpForm()
+        return render(request, 'register.html', context={'form':form})
+    elif request.method == 'POST':
+        form = SignUpForm(data=request.POST)
+        if form.is_valid():
+            user = User(username=form.cleaned_data['username'])
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            return redirect('webapp:main_page')
+        else:
+            return render(request, 'register.html', context={'form': form})
