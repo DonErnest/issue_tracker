@@ -6,11 +6,11 @@
         <h1>Удаление статуса</h1>
         <h2><strong>Статус:</strong> {{ status.name }}</h2>
         <h5>Вы уверены, что хотите удалить выбранный статус?</h5>
-        <form method="POST" action="{% url 'delete status' status.pk %}">
+        <form method="POST" action="{% url 'webapp:delete status' status.pk %}">
             {% csrf_token %}
             <div class = "btn-group pl-5">
                 <input type="submit" class  = 'btn btn-outline-warning' value="Да">
-                <a type="submit" class  = 'btn btn-outline-warning' href="{% url 'main_page' %}">Отмена</a>
+                <a type="submit" class  = 'btn btn-outline-warning' href="{% url 'webapp:main_page' %}">Отмена</a>
             </div>
         </form>
     </div>

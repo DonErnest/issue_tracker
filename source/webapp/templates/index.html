@@ -2,21 +2,22 @@
 
 {% block title %}Главная{% endblock %}
 {% block menu %}
-    <a href="{% url 'create task' %}" class="nav-link">Создать задачу</a>
-    <a href="{% url 'view projects' %}" class="nav-link">К проектам</a>
+    <a href="{% url 'webapp:create task' %}" class="nav-link">Создать задачу</a>
+    <a href="{% url 'webapp:view projects' %}" class="nav-link">К проектам</a>
     {% if not request.user.is_authenticated %}
         <span class="ml-3 navbar-text">Привет, холоп! Что пришел?</span>
         <li class="nav-item">
             <a href="{% url 'accounts:login' %}" class="nav-link">Войти в трекер</a>
         </li>
     {% else %}
+        <span class="ml-3 navbar-text">Милый человек, добро пожаловать!</span>
         <li class="nav-item">
             <a href="{% url 'accounts:logout' %}" class="nav-link">Покинуть трекер</a>
         </li>
     {% endif %}
 {% endblock %}
 {% block menu_buttons %}
-    <form class="form-inline my-2 my-lg-0" action="{% url 'main_page' %}" method="get">
+    <form class="form-inline my-2 my-lg-0" action="{% url 'webapp:main_page' %}" method="get">
         {% include 'partial/search_form.html' %}
     </form>
     <button type="button" class="nav-link" data-toggle="modal" data-target="#statuslist">Список статусов</button>
@@ -39,11 +40,11 @@
                         <h6><strong>Статус: </strong>{{ task.status }}</h6>
                     </div>
                     <div class="btn-group">
-                        <a href="{% url 'view task' task.pk %}" class="card-link btn btn-success btn-sm">Просмотр</a>
+                        <a href="{% url 'webapp:view task' task.pk %}" class="card-link btn btn-success btn-sm">Просмотр</a>
                         {% if task.project.status == 'closed' %}
                         {% else %}
-                            <a href="{% url  'edit task' task.pk %}" class="card-link btn btn-success btn-sm">Редактировать</a>
-                            <a href="{% url 'delete task' task.pk %}" class="card-link btn btn-success btn-sm">Удалить</a>
+                            <a href="{% url  'webapp:edit task' task.pk %}" class="card-link btn btn-success btn-sm">Редактировать</a>
+                            <a href="{% url 'webapp:delete task' task.pk %}" class="card-link btn btn-success btn-sm">Удалить</a>
                         {% endif %}
                     </div>
                 </div>

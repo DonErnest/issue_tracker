@@ -14,11 +14,11 @@
                        {% for each in status %}
                            <li>
                                {{ each }}
-                               <a href="{% url 'edit status' each.pk %}"><i class="fas fa-pen-square"></i></a>
-                               <a href="{% url 'delete status' each.pk%}"><i class="fas fa-eraser"></i></a>
+                               <a href="{% url 'webapp:edit status' each.pk %}"><i class="fas fa-pen-square"></i></a>
+                               <a href="{% url 'webapp:delete status' each.pk%}"><i class="fas fa-eraser"></i></a>
                            </li>
                        {% endfor %}
-                       <li><a href="{% url 'add status' %}">Добавить новый статус</a></li>
+                       <li><a href="{% url 'webapp:add status' %}">Добавить новый статус</a></li>
                    </ul>
                 </div>
                 <div class="modal-footer">

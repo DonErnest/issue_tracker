@@ -7,7 +7,7 @@
         <h2>
             <strong>Проект: </strong>
                 {% if task.project %}
-                    <a href="{%  url 'view project' task.project.pk %}">{{ task.project }}</a>
+                    <a href="{%  url 'webapp:view project' task.project.pk %}">{{ task.project }}</a>
                 {% else %}
                     Не назначено
                 {% endif %}
@@ -19,10 +19,10 @@
         <div class = "btn-block">
             {% if task.project.status == 'closed' %}
             {% else %}
-                <a href="{% url  'edit task' task.pk %}" class="card-link btn btn-success btn-sm">Редактировать</a>
-                <a href="{% url 'delete task' task.pk %}" class="card-link btn btn-success btn-sm">Удалить</a>
+                <a href="{% url  'webapp:edit task' task.pk %}" class="card-link btn btn-success btn-sm">Редактировать</a>
+                <a href="{% url 'webapp:delete task' task.pk %}" class="card-link btn btn-success btn-sm">Удалить</a>
             {% endif %}
-            <a class = "btn btn-warning" href="{% url 'main_page' %}">Вернуться на главную страницу</a>
+            <a class = "btn btn-warning" href="{% url 'webapp:main_page' %}">Вернуться на главную страницу</a>
         </div>
     </div>
     </div>

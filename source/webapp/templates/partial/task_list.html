@@ -9,7 +9,7 @@
             <li class ="list-group-item d-flex flex-column">
                 <div class="row">
                     <h6 class="font-italic ml-3">
-                        <a href="{% url 'view task' task.pk %}"><strong>{{ task.summary }}</strong></a>
+                        <a href="{% url 'webapp:view task' task.pk %}"><strong>{{ task.summary }}</strong></a>
                     </h6>
                     <span class="ml-auto"><strong>Created at: </strong>{{ task.created_at }}</span>
                 </div>

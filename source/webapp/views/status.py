@@ -22,7 +22,7 @@ class EditStatusView(LoginRequiredMixin, UpdateView):
     form_class = StatusForm
     context_key = 'status'
     def get_success_url(self):
-        return reverse('main_page')
+        return reverse('webapp:main_page')
 
 
 class DeleteStatusView(LoginRequiredMixin, DeleteView):

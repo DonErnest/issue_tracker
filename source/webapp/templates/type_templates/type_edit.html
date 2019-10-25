@@ -2,7 +2,7 @@
 {% block title %}Редактировать тип{% endblock %}
 {% block content %}
     <div class = "d-flex justify-content-center pt-5 pb-5">
-        <form action="{% url 'edit type' type.pk %}" method="POST" class = "w-50 pt-3 pb-3">
+        <form action="{% url 'webapp:edit type' type.pk %}" method="POST" class = "w-50 pt-3 pb-3">
             {% include 'partial/form.html' with button_text="Редактировать" %}
         </form>
     </div>

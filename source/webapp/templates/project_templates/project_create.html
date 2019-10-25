@@ -2,7 +2,7 @@
 {% block title %}Создать проект{% endblock %}
 {% block content %}
     <div class = "d-flex justify-content-center pt-5 pb-5">
-        <form action="{% url 'create project' %}" method="POST" class = "w-50 pt-3 pb-3">
+        <form action="{% url 'webapp:create project' %}" method="POST" class = "w-50 pt-3 pb-3">
             {% include 'partial/form.html' with button_text="Создать" %}
         </form>
     </div>

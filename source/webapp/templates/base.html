@@ -15,7 +15,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">>
     <div class="collapse navbar-collapse" >
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item"><a href="{% url 'main_page' %}" class="nav-link">Home</a></li>
+            <li class="nav-item"><a href="{% url 'webapp:main_page' %}" class="nav-link">Home</a></li>
             {% block menu %}{% endblock %}
         </ul>
         {% block menu_buttons %}{% endblock %}

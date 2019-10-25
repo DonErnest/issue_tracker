@@ -2,13 +2,13 @@
 
 {% block title %}Список проектов{% endblock %}
 {% block menu %}
-    <a href="{% url 'create task' %}" class="nav-link">Создать задачу</a>
-    <a href="{% url 'main_page' %}" class="nav-link">К задачам</a>
+    <a href="{% url 'webapp:create task' %}" class="nav-link">Создать задачу</a>
+    <a href="{% url 'webapp:main_page' %}" class="nav-link">К задачам</a>
 
 {% endblock %}
 {% block menu_buttons %}
-    <a class = "nav-link" href="{% url 'create project' %}">Создать проект</a>
-    <form class="form-inline my-2 my-lg-0" action="{% url 'view projects' %}" method="get">
+    <a class = "nav-link" href="{% url 'webapp:create project' %}">Создать проект</a>
+    <form class="form-inline my-2 my-lg-0" action="{% url 'webapp:view projects' %}" method="get">
         {% include 'partial/search_form.html' %}
     </form>
 {% endblock %}

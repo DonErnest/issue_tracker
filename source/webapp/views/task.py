@@ -21,7 +21,7 @@ class CreateTaskView(LoginRequiredMixin, CreateView):
     context_key = 'task'
 
     def get_success_url(self):
-        return reverse('view task', kwargs={'pk': self.object.pk})
+        return reverse('webapp:view task', kwargs={'pk': self.object.pk})
 
     def post(self, request, *args, **kwargs):
         form = self.get_form()
@@ -42,7 +42,7 @@ class EditTaskView(LoginRequiredMixin, UpdateView):
     context_key = 'task'
 
     def get_success_url(self):
-        return reverse('view task', kwargs={'pk': self.object.pk})
+        return reverse('webapp:view task', kwargs={'pk': self.object.pk})
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
