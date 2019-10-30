@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %} Личная информация {% endblock %}
+
+{% block menu %}
+    {% if request.user == user_obj %}
+        <li class="nav-item">
+            <a href="{% url 'accounts:update user info' user_obj.pk %}" class="nav-link">Редактировать</a>
+        </li>
+    {% endif %}
+{% endblock %}
+{% block content %}
+    <h1>Личная информация</h1>
+    <p><strong>Имя пользователя: </strong> {{ user_obj.username }}</p>
+    <p><strong>Имя: </strong>{{ user_obj.first_name }}</p>
+    <p><strong>Фамилия: </strong>{{ user_obj.last_name }}</p>
+    <p><strong>Почта: </strong>{{ user_obj.email }}</p>
+    {% if request.user == user_obj %}
+        <a href="{% url 'accounts:change user password' user_obj.pk %}">Сменить пароль</a>
+    {% endif %}
+{% endblock %}
