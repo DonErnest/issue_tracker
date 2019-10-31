@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
+from accounts.models import GitHubRepo
+
 
 class UserSignUpForm(forms.ModelForm):
     email = forms.EmailField(label='Электронный адрес', required=True, widget=forms.EmailInput)
@@ -98,3 +100,11 @@ class UserPasswordChangeForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['password', 'password_confirm', 'old_password']
+
+
+class GitURLForm(forms.ModelForm):
+
+    class Meta:
+        model=GitHubRepo
+        fields=['repo_url']
+        labels={'repo_url': 'Ссылка на репозиторий'}

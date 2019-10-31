@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Список холопов{% endblock %}
+{% block content %}
+     <ul class="list-group">
+        <li class="list-group-item">
+            <h6 class="font-italic"><strong>Пользователи</strong></h6>
+        </li>
+        {% for user in users %}
+            <li class ="list-group-item d-flex flex-column">
+                <h6>{{ user.username }}</h6>
+                <div class="row">
+                    <a class='ml-auto' href="{% url 'accounts:user details' user.pk %}">Личная страница</a>
+                </div>
+            </li>
+        {% empty %}
+            <li class ="list-group-item">Пользователей пока нет</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
