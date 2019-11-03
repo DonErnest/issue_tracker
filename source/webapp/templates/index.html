@@ -13,13 +13,16 @@
             <a href="{% url 'accounts:login' %}" class="nav-link">Войти в трекер</a>
         </li>
     {% else %}
-        <span class="ml-3 navbar-text">Добро пожаловать!</span>
-        <li class="nav-item">
-            <a href="{% url 'accounts:user details' request.user.pk %}" class="nav-link">Личная страница</a>
-        </li>
-        <li class="nav-item">
-            <a href="{% url 'accounts:logout' %}" class="nav-link">Покинуть трекер</a>
-        </li>
+        <span class="ml-3 navbar-text">Вы вошли как </span>
+        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarProfileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ request.user.username }}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarProfileDropdown">
+            <a class="dropdown-item" href="{% url 'accounts:user details' request.user.pk %}">Личная страница</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{% url 'accounts:logout' %}">Покинуть трекер</a>
+        </div>
     {% endif %}
 {% endblock %}
 {% block menu_buttons %}

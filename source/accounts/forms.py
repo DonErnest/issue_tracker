@@ -35,6 +35,7 @@ class UserSignUpForm(forms.ModelForm):
         user.set_password(self.cleaned_data['password'])
         if commit:
             user.save()
+            GitHubRepo.objects.create(user=user)
         return user
 
     class Meta:
@@ -78,6 +79,13 @@ class UserUpdateForm(forms.ModelForm):
         if field_name in self.Meta.profile_fields:
             return getattr(self.instance.profile, field_name)
         return super(UserUpdateForm, self).get_initial_for_field(field, field_name)
+
+    def clean_repo_url(self):
+        repo_url = self.cleaned_data['repo_url']
+        if 'https://github.' in str(repo_url[0:15]):
+            return repo_url
+        else:
+            raise ValidationError('Это не ссылка на github!')
 
 
     def clean(self):

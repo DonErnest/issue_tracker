@@ -4,19 +4,6 @@
 {% block content %}
     <div class = "d-flex justify-content-center pt-5 pb-5">
         <form action="{% url 'accounts:update user info' user_obj.pk %}" method="POST" class = "w-50 pt-3 pb-3" enctype="multipart/form-data">
-            {% for field in git_repo %}
-                <div class = "form-group">
-                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                    {% if git_repo.errors %}
-                        {{ field|add_class:'form-control field-error'}}
-                    {% else %}
-                        {{ field|add_class:'form-control'}}
-                    {% endif %}
-                    {% for error in field.errors %}
-                        <p class="form-error">{{ error }}</p>
-                    {% endfor %}
-                </div>
-            {% endfor %}
             {% include 'partial/form.html' with button_text="Обновить" %}
         </form>
     </div>
