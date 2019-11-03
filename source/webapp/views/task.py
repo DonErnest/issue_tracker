@@ -1,11 +1,10 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import Http404
 from django.urls import reverse
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
 
 from webapp.forms import TaskForm
-from webapp.models import Task, PROJECT_STATUS_DEFAULT
-
+from webapp.models import Task, PROJECT_STATUS_DEFAULT, Project
 
 
 class TaskView(DetailView):
@@ -14,7 +13,7 @@ class TaskView(DetailView):
     context_key = 'task'
 
 
-class CreateTaskView(LoginRequiredMixin, CreateView):
+class CreateTaskView(UserPassesTestMixin, CreateView):
     model = Task
     form_class = TaskForm
     template_name = 'task_templates/task_create.html'
@@ -22,6 +21,11 @@ class CreateTaskView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse('webapp:view task', kwargs={'pk': self.object.pk})
+
+    def get_form(self, form_class=None):
+        form = super(CreateTaskView, self).get_form()
+        form.fields['project'].queryset = Project.objects.filter(team__user=self.request.user)
+        return form
 
     def post(self, request, *args, **kwargs):
         form = self.get_form()
@@ -34,8 +38,12 @@ class CreateTaskView(LoginRequiredMixin, CreateView):
         else:
             return self.form_invalid(form)
 
+    def test_func(self):
+        return True
 
-class EditTaskView(LoginRequiredMixin, UpdateView):
+
+
+class EditTaskView(UserPassesTestMixin, UpdateView):
     model = Task
     form_class = TaskForm
     template_name = 'task_templates/task_edit.html'
@@ -56,8 +64,13 @@ class EditTaskView(LoginRequiredMixin, UpdateView):
         else:
             return self.form_invalid(form)
 
+    def test_func(self):
+        teams = self.request.user.team.distinct()
+        pk = self.kwargs['pk']
+        task = Task.objects.get(pk=pk)
+        return teams.filter(project=task.project)
 
-class DeleteTaskView(LoginRequiredMixin, DeleteView):
+class DeleteTaskView(UserPassesTestMixin, DeleteView):
     model = Task
     template_name = 'task_templates/task_delete.html'
     context_key = 'task'
@@ -70,3 +83,9 @@ class DeleteTaskView(LoginRequiredMixin, DeleteView):
             return self.delete(request, *args, **kwargs)
         else:
             raise Http404('Невозможно удалить задачу для закрытого проекта!')
+
+    def test_func(self):
+        teams = self.request.user.team.distinct()
+        pk = self.kwargs['pk']
+        task = Task.objects.get(pk=pk)
+        return teams.filter(project=task.project)

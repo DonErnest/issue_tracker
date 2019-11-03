@@ -15,3 +15,11 @@ class GitHubRepo(models.Model):
         verbose_name_plural = 'Профили'
 
 
+class Team(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='team',verbose_name='Участник команды')
+    project = models.ForeignKey('webapp.Project', on_delete=models.PROTECT, related_name='team', verbose_name='Проект команды')
+    starting_date = models.DateField(verbose_name='Дата начала работы', null=False, blank=False)
+    end_date = models.DateField(verbose_name='Дата окончания работы', null=True, blank=True)
+
+    def __str__(self):
+        return "Участник {} проекта '{}'".format(self.user, self.project)
