@@ -11,11 +11,15 @@
 {% endblock %}
 {% block content %}
     <h1>Личная информация</h1>
+    {% if user_obj.Profile.avatar %}
+        <img class='avatar' src="{{ user_obj.profile.avatar.url }}" width='250' height='250' alt="user picture">
+    {% endif %}
     <p><strong>Имя пользователя: </strong> {{ user_obj.username }}</p>
+    <p><strong>О себе: </strong> {{ user_obj.profile.description }}</p>
     <p><strong>Имя: </strong>{{ user_obj.first_name }}</p>
     <p><strong>Фамилия: </strong>{{ user_obj.last_name }}</p>
     <p><strong>Почта: </strong>{{ user_obj.email }}</p>
-    <p><strong>Ссылка на репозиторий: </strong>{{ user_obj.githubrepo }}</p>
+    <p><strong>Ссылка на репозиторий: </strong>{{ user_obj.profile.repo_url }}</p>
     {% if request.user == user_obj %}
         <a href="{% url 'accounts:change user password' user_obj.pk %}">Сменить пароль</a>
     {% endif %}

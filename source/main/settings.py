@@ -125,3 +125,6 @@ STATIC_URL = '/static/'
 LOGIN_URL='accounts:login'
 
 HOST_NAME='localhost:8000'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
+MEDIA_URL = '/uploads/'

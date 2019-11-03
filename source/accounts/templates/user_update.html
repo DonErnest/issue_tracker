@@ -3,7 +3,7 @@
 {% block title %}Редактирование личной информации{% endblock %}
 {% block content %}
     <div class = "d-flex justify-content-center pt-5 pb-5">
-        <form action="{% url 'accounts:update user info' user_obj.pk %}" method="POST" class = "w-50 pt-3 pb-3">
+        <form action="{% url 'accounts:update user info' user_obj.pk %}" method="POST" class = "w-50 pt-3 pb-3" enctype="multipart/form-data">
             {% for field in git_repo %}
                 <div class = "form-group">
                     <label for="{{ field.id_for_label }}">{{ field.label }}</label>

@@ -44,6 +44,27 @@ class UserSignUpForm(forms.ModelForm):
 
 class UserUpdateForm(forms.ModelForm):
     email = forms.EmailField(label='Новый почтовый адрес', required=True, widget=forms.EmailInput)
+    description = forms.CharField(max_length=1000, required=False, label='О себе')
+    avatar = forms.ImageField(label='Аватар', required=False)
+    repo_url = forms.URLField(label='Ссылка на репозиторий')
+
+
+    def save(self, commit=True):
+        user = super(UserUpdateForm, self).save(commit)
+        self.save_profile(commit)
+        return user
+
+    def save_profile(self, commit=True):
+        profile= self.instance.profile
+
+        for field in self.Meta.profile_fields:
+            setattr(profile, field, self.cleaned_data[field])
+
+        if not profile.avatar:
+            profile.avatar = None
+
+        if commit:
+            profile.save()
 
     def first_last_empty_check(self):
         first_name = self.cleaned_data.get('first_name')
@@ -53,18 +74,28 @@ class UserUpdateForm(forms.ModelForm):
                 raise ValidationError('Both first name and last name are empty!',
                                       code='first_last_empty_values')
 
+    def get_initial_for_field(self, field, field_name):
+        if field_name in self.Meta.profile_fields:
+            return getattr(self.instance.profile, field_name)
+        return super(UserUpdateForm, self).get_initial_for_field(field, field_name)
+
+
     def clean(self):
         super(UserUpdateForm, self).clean()
         self.first_last_empty_check()
 
     class Meta:
         model = User
-        fields=['username', 'first_name', 'last_name', 'email']
+        fields=['username', 'first_name', 'last_name', 'email', 'avatar', 'description', 'repo_url']
+        profile_fields=['avatar','description','repo_url']
         labels={
             'username': 'Ник пользователя',
             'first_name': 'Новое имя',
             'last_name': 'Новая фамилия'
         }
+
+
+
 
 
 class UserPasswordChangeForm(forms.ModelForm):
@@ -102,9 +133,9 @@ class UserPasswordChangeForm(forms.ModelForm):
         fields = ['password', 'password_confirm', 'old_password']
 
 
-class GitURLForm(forms.ModelForm):
-
-    class Meta:
-        model=GitHubRepo
-        fields=['repo_url']
-        labels={'repo_url': 'Ссылка на репозиторий'}
+# class GitURLForm(forms.ModelForm):
+#
+#     class Meta:
+#         model=GitHubRepo
+#         fields=['repo_url']
+#         labels={'repo_url': 'Ссылка на репозиторий'}
