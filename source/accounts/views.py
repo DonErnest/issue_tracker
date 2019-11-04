@@ -60,31 +60,6 @@ class UserUpdateView(UserPassesTestMixin, UpdateView):
     form_class = UserUpdateForm
     context_object_name = 'user_obj'
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data()
-    #     try:
-    #         git_repo_form = GitURLForm(initial={'user': self.object, 'repo_url': self.object.githubrepo})
-    #         context['git_repo'] = git_repo_form
-    #     except:
-    #         git_repo_form = GitURLForm()
-    #         context['git_repo'] = git_repo_form
-    #     return context
-
-
-    # def post(self, request, *args, **kwargs):
-    #     self.object = self.get_object()
-    #     user_pk = self.kwargs['pk']
-    #     user = get_object_or_404(User, pk=user_pk)
-    #     repo_url = request.POST['repo_url']
-    #     git_obj = GitHubRepo(user=user, repo_url=repo_url)
-    #     form = self.get_form()
-    #     print(form)
-    #     if form.is_valid():
-    #         git_obj.save()
-    #         return self.form_valid(form)
-    #     else:
-    #         return self.form_invalid(form)
-
 
     def get_success_url(self):
         return reverse('accounts:user details', kwargs={'pk': self.kwargs['pk']})

@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import Http404
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
 
@@ -41,6 +42,10 @@ class CreateTaskView(UserPassesTestMixin, CreateView):
     def test_func(self):
         return True
 
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('accounts:login')
+        return super().dispatch(request, *args, **kwargs)
 
 
 class EditTaskView(UserPassesTestMixin, UpdateView):
@@ -64,6 +69,12 @@ class EditTaskView(UserPassesTestMixin, UpdateView):
         else:
             return self.form_invalid(form)
 
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('accounts:login')
+        return super().dispatch(request, *args, **kwargs)
+
+
     def test_func(self):
         teams = self.request.user.team.distinct()
         pk = self.kwargs['pk']
@@ -78,11 +89,15 @@ class DeleteTaskView(UserPassesTestMixin, DeleteView):
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        # print(self.object.project.status)
         if self.object.project.status == PROJECT_STATUS_DEFAULT:
             return self.delete(request, *args, **kwargs)
         else:
             raise Http404('Невозможно удалить задачу для закрытого проекта!')
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('accounts:login')
+        return super().dispatch(request, *args, **kwargs)
 
     def test_func(self):
         teams = self.request.user.team.distinct()
