@@ -82,7 +82,7 @@ class UserUpdateForm(forms.ModelForm):
 
     def clean_repo_url(self):
         repo_url = self.cleaned_data['repo_url']
-        if 'https://github.' in str(repo_url[0:15]):
+        if 'https://github.com' in str(repo_url[0:18]):
             return repo_url
         else:
             raise ValidationError('Это не ссылка на github!')
