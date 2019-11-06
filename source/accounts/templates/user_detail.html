@@ -23,6 +23,7 @@
     <p><strong>Фамилия: </strong>{{ user_obj.last_name }}</p>
     <p><strong>Почта: </strong>{{ user_obj.email }}</p>
     <p><strong>Ссылка на репозиторий: </strong>{{ user_obj.profile.repo_url }}</p>
+    <p><strong>Проекты: </strong>{{ user_obj.team.all }}</p>
     {% if request.user == user_obj %}
         <a href="{% url 'accounts:change user password' user_obj.pk %}">Сменить пароль</a>
     {% endif %}

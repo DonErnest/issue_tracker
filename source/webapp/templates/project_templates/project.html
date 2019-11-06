@@ -9,6 +9,7 @@
         <p><strong>Дата обновления: </strong> {{ project.updated_at }}</p>
         <p><strong>Подробно:</strong> {{ project.description|escape|linebreaks }}</p>
         <div class = "btn-block mb-3">
+            <a href="{% url 'webapp:create task' project.pk%}" class="card-link btn btn-success btn-sm">Добавить задачу</a>
             <a href="{% url  'webapp:edit project' project.pk %}" class="card-link btn btn-success btn-sm">Редактировать</a>
             <a href="{% url 'webapp:delete project' project.pk %}" class="card-link btn btn-success btn-sm">Удалить</a>
             <a class = "btn btn-warning" href="{% url 'webapp:main_page' %}">Вернуться на главную страницу</a>

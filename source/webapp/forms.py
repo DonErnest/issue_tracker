@@ -1,6 +1,25 @@
 from django import forms
+from django.contrib.auth.models import User
 
 from webapp.models import Status, Type, Task, Project
+
+
+class TaskCreateForm(forms.ModelForm):
+    def __init__(self, project, *args, **kwargs):
+        super(TaskCreateForm, self).__init__(*args, **kwargs)
+        self.fields['assigned_to'] = forms.ModelChoiceField(queryset=User.objects.filter(team__project=project))
+
+    class Meta:
+        model = Task
+        fields = ['summary', 'description', 'status', 'type', 'assigned_to']
+        labels = {'summary': 'Краткое описание', 'description': 'Подробно', 'status': 'Статус', 'type': 'Тип', 'assigned_to': 'Исполнитель'}
+
+    def save(self, commit=True):
+        task = super(TaskCreateForm, self).save(commit=False)
+        task.created_by = self.request.user.id
+        if commit:
+            task.save()
+        return task
 
 
 class TaskForm(forms.ModelForm):
