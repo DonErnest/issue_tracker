@@ -1,11 +1,17 @@
+from datetime import datetime
+
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.http import urlencode
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
+from accounts.forms import TeamAddForm
+from accounts.models import Team
 from webapp.forms import ProjectForm, SearchForm
 from webapp.models import Project, PROJECT_STATUS_DEFAULT
 
@@ -62,6 +68,9 @@ class ProjectView(DetailView):
         context['page_obj'] = page
         context['tasks'] = page.object_list
         context['is_paginated'] = page.has_other_pages()
+        context['team'] = User.objects.filter(team__project=project)
+        context['project_squad'] = Team.objects.filter(project=project, end_date=None).distinct()
+        context['form'] = TeamAddForm(project=self.object)
         return context
 
 
@@ -71,6 +80,18 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
     model = Project
     context_object_name = 'form'
     form_class = ProjectForm
+
+    def form_valid(self, form):
+        self.object = form.save()
+        print(form.cleaned_data['project_squad'])
+
+        for user in form.cleaned_data['project_squad']:
+            Team.objects.create(project=self.object, starting_date=form.cleaned_data['starting_date'], user=user)
+        if self.request.user not in form.cleaned_data['project_squad']:
+            Team.objects.create(project = self.object, starting_date=datetime.now(), user_id=self.request.user.id)
+
+        return HttpResponseRedirect(self.get_success_url())
+
 
     def get_success_url(self):
         return reverse('webapp:view project', kwargs={'pk':self.object.pk})

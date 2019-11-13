@@ -14,6 +14,8 @@
         </h2>
         <h3><strong>Статус задачи:</strong> {{ task.status }}</h3>
         <h3><strong>Тип задачи: </strong>{{ task.type }}</h3>
+        <h4><strong>Создатель: </strong>{{ task.created_by }}</h4>
+        <h4><strong>Исполнитель: </strong>{{ task.assigned_to }}</h4>
         <p><strong>Дата создания:</strong> {{ task.created_at }}</p>
         <p><strong>Подробно:</strong> {{ task.description|escape|linebreaks }}</p>
         <div class = "btn-block">

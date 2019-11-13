@@ -14,12 +14,6 @@ class TaskCreateForm(forms.ModelForm):
         fields = ['summary', 'description', 'status', 'type', 'assigned_to']
         labels = {'summary': 'Краткое описание', 'description': 'Подробно', 'status': 'Статус', 'type': 'Тип', 'assigned_to': 'Исполнитель'}
 
-    def save(self, commit=True):
-        task = super(TaskCreateForm, self).save(commit=False)
-        task.created_by = self.request.user.id
-        if commit:
-            task.save()
-        return task
 
 
 class TaskForm(forms.ModelForm):
@@ -45,10 +39,37 @@ class TypeForm(forms.ModelForm):
 
 
 class ProjectForm(forms.ModelForm):
+    starting_date = forms.DateField(label='Дата начала работы в проекте')
+    project_squad = forms.ModelMultipleChoiceField(queryset=User.objects.all())
+
+
+    def save(self, commit=True):
+        project = super(ProjectForm, self).save(commit)
+        # self.save_team(commit)
+        return project
+
+    # def save_team(self, commit=True):
+    #     team= self.instance.squad
+    #
+    #     for field in self.Meta.team_fields:
+    #         setattr(team, field, self.cleaned_data[field])
+    #
+    #     if commit:
+    #         team.save()
+
+
+
     class Meta:
         model = Project
-        fields=['name', 'description', 'status']
-        labels = {'name': 'Название проекта', 'description': 'Описание проекта'}
+        fields=['name', 'description', 'status', 'project_squad', 'starting_date']
+        team_fields = ['project_squad', 'starting_date']
+        labels = {'name': 'Название проекта', 'description': 'Описание проекта', 'squad': 'Команда'}
 
 class SearchForm(forms.Form):
     search = forms.CharField(max_length=100, required=False, label='Найти')
+
+class AddUserToProjectForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = ['squad']
+        labels = {'squad': 'Команда'}

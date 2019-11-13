@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Удаление{% endblock %}
+{% block content %}
+    <div class = "d-flex flex-column justify-content-center pt-5 pb-5">
+        <h1>Удаление члена команды</h1>
+        <h2>
+            <strong>Имя: </strong>
+
+            {% if team_member.user.first_name and team_member.user.last_name %}
+                {{ team_member.user.first_name }} {{ team_member.user.last_name }}
+            {% else %}
+                {{ team_member.usr.username }}
+            {% endif %}
+        </h2>
+        <h5>Вы уверены, что хотите убрать пользователя из команды?</h5>
+        <h4>(Помните, ему нужно на что-то есть) </h4>
+        <form method="POST" action="{% url 'accounts:remove member from team' team_member.pk %}">
+            {% csrf_token %}
+            <div class = "btn-group pl-5">
+                <input type="submit" class  = 'btn btn-outline-warning' value="Confirm">
+                <a type="submit" class  = 'btn btn-outline-warning' href="{% url 'webapp:view project' team_member.project.pk %}">Cancel</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

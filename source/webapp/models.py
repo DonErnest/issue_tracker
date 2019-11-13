@@ -4,6 +4,11 @@ from django.db import models
 PROJECT_STATUS_DEFAULT = 'active'
 PROJECT_STATUSES=[(PROJECT_STATUS_DEFAULT, 'Активный'),('closed','Закрыт')]
 
+def assign_author():
+    super_author = User.objects.get(username='ernest_aitiev')
+    return super_author.id
+
+
 class Task(models.Model):
     summary = models.CharField(max_length=200, null=False, blank=False, verbose_name='summary')
     description = models.TextField(max_length=2000, null=True, blank=True, verbose_name='description')
@@ -14,7 +19,7 @@ class Task(models.Model):
     created_at= models.DateTimeField(auto_now_add=True, verbose_name='created')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Время изменения')
     project = models.ForeignKey('webapp.Project', on_delete=models.CASCADE, related_name='tasks', verbose_name='projects', null=True, blank=False)
-    created_by = models.ForeignKey(User, on_delete=models.PROTECT, related_name='tasks_created', verbose_name='author', null=True, blank=True)
+    created_by = models.ForeignKey(User, on_delete=models.PROTECT, related_name='tasks_created', default=assign_author, verbose_name='author', null=True, blank=False)
     assigned_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tasks_assigned', verbose_name='executor', null=True, blank=True)
 
 
@@ -46,6 +51,8 @@ class Project(models.Model):
     created_at= models.DateTimeField(auto_now_add=True, verbose_name='project_created')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='project_updated')
     status = models.CharField(choices=PROJECT_STATUSES, max_length=10, default=PROJECT_STATUS_DEFAULT, verbose_name='Статус проекта')
+    squad = models.ManyToManyField(User, through='accounts.Team', through_fields=('project','user'),related_name='projects', blank=True )
+
 
     def __str__(self):
         return self.name

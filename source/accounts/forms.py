@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
-from accounts.models import GitHubRepo
+from accounts.models import GitHubRepo, Team
 
 
 class UserSignUpForm(forms.ModelForm):
@@ -141,9 +141,11 @@ class UserPasswordChangeForm(forms.ModelForm):
         fields = ['password', 'password_confirm', 'old_password']
 
 
-# class GitURLForm(forms.ModelForm):
-#
-#     class Meta:
-#         model=GitHubRepo
-#         fields=['repo_url']
-#         labels={'repo_url': 'Ссылка на репозиторий'}
+class TeamAddForm(forms.ModelForm):
+    def __init__(self, project, *args, **kwargs):
+        super(TeamAddForm, self).__init__(*args, **kwargs)
+        self.fields['user'] = forms.ModelChoiceField(queryset=User.objects.exclude(team__project=project))
+
+    class Meta:
+        model=Team
+        fields=['user', 'starting_date']

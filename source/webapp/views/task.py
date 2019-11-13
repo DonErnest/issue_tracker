@@ -23,6 +23,8 @@ class CreateTaskView(UserPassesTestMixin, CreateView):
     def form_valid(self, form):
         self.project = self.get_project()
         self.object = self.project.tasks.create(**form.cleaned_data)
+        self.object.created_by = self.request.user
+        self.object.save()
         return redirect('webapp:view task', pk = self.object.pk)
 
     def get_project(self):
@@ -40,19 +42,9 @@ class CreateTaskView(UserPassesTestMixin, CreateView):
         kwargs.update({'project': self.get_project()})
         return kwargs
 
-    # def get_form(self, form_class=None):
-    #     form = super(CreateTaskView, self).get_form()
-    #     form.fields['project'].queryset = Project.objects.filter(team__user=self.request.user)
-    #     return form
-
     def post(self, request, *args, **kwargs):
         form = self.get_form()
         if form.is_valid():
-            # selected_project = form.cleaned_data['project']
-            # if selected_project.status == PROJECT_STATUS_DEFAULT:
-            #     return self.form_valid(form)
-            # else:
-            #     raise Http404('Невозможно создать задачу для закрытого проекта!')
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
@@ -63,30 +55,27 @@ class CreateTaskView(UserPassesTestMixin, CreateView):
         project = Project.objects.get(pk=pk)
         return teams.filter(project=project)
 
-    # def dispatch(self, request, *args, **kwargs):
-    #     if not request.user.is_authenticated:
-    #         return redirect('accounts:login')
-    #     return super().dispatch(request, *args, **kwargs)
-
 
 class EditTaskView(UserPassesTestMixin, UpdateView):
     model = Task
-    form_class = TaskForm
+    form_class = TaskCreateForm
     template_name = 'task_templates/task_edit.html'
     context_key = 'task'
 
     def get_success_url(self):
         return reverse('webapp:view task', kwargs={'pk': self.object.pk})
 
+    def get_form_kwargs(self):
+        kwargs=super().get_form_kwargs()
+        kwargs.update({'project': self.object.project})
+        return kwargs
+
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
+        if self.object.project.status=='closed':
+            raise Http404('Невозможно редактировать задачу для закрытого проекта!')
         form = self.get_form()
         if form.is_valid():
-            # selected_project = form.cleaned_data['project']
-            # if selected_project.status == PROJECT_STATUS_DEFAULT:
-            #     return self.form_valid(form)
-            # else:
-            #     raise Http404('Невозможно реадктировать задачу для закрытого проекта!')
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
