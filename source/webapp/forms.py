@@ -38,32 +38,26 @@ class TypeForm(forms.ModelForm):
         labels = {'name': 'Новый тип'}
 
 
-class ProjectForm(forms.ModelForm):
+class ProjectCreateForm(forms.ModelForm):
     starting_date = forms.DateField(label='Дата начала работы в проекте')
     project_squad = forms.ModelMultipleChoiceField(queryset=User.objects.all())
 
 
     def save(self, commit=True):
-        project = super(ProjectForm, self).save(commit)
-        # self.save_team(commit)
+        project = super(ProjectCreateForm, self).save(commit)
         return project
-
-    # def save_team(self, commit=True):
-    #     team= self.instance.squad
-    #
-    #     for field in self.Meta.team_fields:
-    #         setattr(team, field, self.cleaned_data[field])
-    #
-    #     if commit:
-    #         team.save()
-
-
 
     class Meta:
         model = Project
         fields=['name', 'description', 'status', 'project_squad', 'starting_date']
         team_fields = ['project_squad', 'starting_date']
         labels = {'name': 'Название проекта', 'description': 'Описание проекта', 'squad': 'Команда'}
+
+class ProjectForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields=['name', 'description', 'status']
+        labels = {'name': 'Название проекта', 'description': 'Описание проекта'}
 
 class SearchForm(forms.Form):
     search = forms.CharField(max_length=100, required=False, label='Найти')

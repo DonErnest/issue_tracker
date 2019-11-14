@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.db.models import Q
 
 from accounts.models import GitHubRepo, Team
 
@@ -141,10 +142,11 @@ class UserPasswordChangeForm(forms.ModelForm):
         fields = ['password', 'password_confirm', 'old_password']
 
 
+
 class TeamAddForm(forms.ModelForm):
     def __init__(self, project, *args, **kwargs):
         super(TeamAddForm, self).__init__(*args, **kwargs)
-        self.fields['user'] = forms.ModelChoiceField(queryset=User.objects.exclude(team__project=project))
+        self.fields['user'] = forms.ModelChoiceField(queryset=User.objects.exclude(Q(team__project=project) & Q(team__end_date__isnull=True)))
 
     class Meta:
         model=Team

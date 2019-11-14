@@ -1,17 +1,12 @@
-from datetime import datetime
-
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LogoutView
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.views.generic import DetailView, UpdateView, ListView, CreateView, DeleteView
+from django.views.generic import DetailView, UpdateView, ListView
 
-from accounts.forms import UserSignUpForm, UserUpdateForm, UserPasswordChangeForm, TeamAddForm
-from accounts.models import GitHubRepo, Team
-from webapp.models import Project
-
+from accounts.forms import UserSignUpForm, UserUpdateForm, UserPasswordChangeForm
 
 def login_view(request):
     context={}
@@ -88,39 +83,3 @@ class UserListView(ListView):
     model = User
     template_name = 'user_list.html'
     context_object_name = 'users'
-
-
-class TeamAddView(CreateView):
-    model = Team
-    form_class = TeamAddForm
-    template_name = 'team_add.html'
-    context_object_name = 'form'
-
-    def get_form_kwargs(self):
-        kwargs=super(TeamAddView, self).get_form_kwargs()
-        kwargs.update({'project': self.get_project()})
-        return kwargs
-
-    def form_valid(self, form):
-        self.project = self.get_project()
-        self.object = self.project.team.create(**form.cleaned_data)
-        self.object.save()
-        return redirect('webapp:view project', pk = self.project.pk)
-
-    def get_project(self):
-        project_pk = self.kwargs.get('pk')
-        project = get_object_or_404(Project, pk=project_pk)
-        return project
-
-
-class TeamRemoveView(DeleteView):
-    model = Team
-    template_name = 'team_remove.html'
-    context_object_name = 'team_member'
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        self.object.end_date = datetime.now()
-        self.object.save()
-        return redirect('webapp:view project', self.object.project.pk)
-

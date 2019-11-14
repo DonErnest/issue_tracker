@@ -3,12 +3,22 @@
 {% block title %}Просмотр задачи{% endblock %}
 {% block content %}
     <div class = "d-flex flex-column pt-5 pb-5">
-        <h1>Проект</h1>
-        <h2><strong>Описание проекта:</strong> {{ project.name }}</h2>
-        <h3><strong>Статус: </strong>{{ project.get_status_display }}</h3>
-        <p><strong>Дата создания:</strong> {{ project.created_at }}</p>
-        <p><strong>Дата обновления: </strong> {{ project.updated_at }}</p>
-        <p><strong>Подробно:</strong> {{ project.description|escape|linebreaks }}</p>
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-12">
+                <h1>Проект</h1>
+                <h2><strong>Описание проекта:</strong> {{ project.name }}</h2>
+                <h3><strong>Статус: </strong>{{ project.get_status_display }}</h3>
+                <p><strong>Дата создания:</strong> {{ project.created_at }}</p>
+                <p><strong>Дата обновления: </strong> {{ project.updated_at }}</p>
+                <p><strong>Подробно:</strong> {{ project.description|escape|linebreaks }}</p>
+            </div>
+            <div class="col-lg-6 col-md-6 col-12 align-self-center justify-content-center d-flex">
+                {% if request.user in team %}
+                    <a href="{% url 'webapp:create task' project.pk%}"class="btn btn-lg btn-success">Добавить задачу</a>
+                {% endif %}
+            </div>
+        </div>
+
 
         <table class="table">
             <thead>
@@ -35,18 +45,22 @@
                     <td><a href="{% url 'accounts:remove member from team' member.pk%}">Продать негра</a></td>
                 </tr>
             {% endfor %}
+            {% if perms.accounts.add_team %}
                 <tr>
                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#teamAdd">Добавить пользователя</button>
                 </tr>
+            {% endif %}
             </tbody>
         </table>
         <div class = "btn-block mt-3 mb-3">
-            {% if request.user in team %}
-                <a href="{% url 'webapp:create task' project.pk%}" class="card-link btn btn-success btn-sm">Добавить задачу</a>
+            {% if perms.webapp.change_project %}
+                <a href="{% url  'webapp:edit project' project.pk %}" class="card-link btn btn-success btn-sm">Редактировать</a>
             {% endif %}
 
-            <a href="{% url  'webapp:edit project' project.pk %}" class="card-link btn btn-success btn-sm">Редактировать</a>
-            <a href="{% url 'webapp:delete project' project.pk %}" class="card-link btn btn-success btn-sm">Удалить</a>
+            {% if perms.webapp.delete_project %}
+                <a href="{% url 'webapp:delete project' project.pk %}" class="card-link btn btn-success btn-sm">Удалить</a>
+            {% endif %}
+
             <a class = "btn btn-warning" href="{% url 'webapp:main_page' %}">Вернуться на главную страницу</a>
             <a class = "btn btn-warning" href="{% url 'webapp:view projects' %}">Вернуться к списку проектов</a>
         </div>

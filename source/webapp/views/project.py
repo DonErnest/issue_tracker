@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -12,7 +12,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 
 from accounts.forms import TeamAddForm
 from accounts.models import Team
-from webapp.forms import ProjectForm, SearchForm
+from webapp.forms import ProjectCreateForm, SearchForm, ProjectForm
 from webapp.models import Project, PROJECT_STATUS_DEFAULT
 
 
@@ -75,11 +75,13 @@ class ProjectView(DetailView):
 
 
 
-class ProjectCreateView(LoginRequiredMixin, CreateView):
+class ProjectCreateView(PermissionRequiredMixin, CreateView):
     template_name = 'project_templates/project_create.html'
     model = Project
     context_object_name = 'form'
-    form_class = ProjectForm
+    form_class = ProjectCreateForm
+    permission_required = 'webapp.add_project'
+    permission_denied_message = 'Проекты могут создавать только менеджеры!'
 
     def form_valid(self, form):
         self.object = form.save()
@@ -97,20 +99,24 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
         return reverse('webapp:view project', kwargs={'pk':self.object.pk})
 
 
-class ProjectEditView(LoginRequiredMixin, UpdateView):
+class ProjectEditView(PermissionRequiredMixin, UpdateView):
     template_name = 'project_templates/project_update.html'
     model = Project
     context_object_name = 'project'
     form_class = ProjectForm
+    permission_required = 'webapp.change_project'
+    permission_denied_message = 'Проекты могут редактировать только менеджеры!'
 
     def get_success_url(self):
         return reverse('webapp:view project', kwargs={'pk': self.object.pk})
 
 
-class ProjectDeleteView(LoginRequiredMixin, DeleteView):
+class ProjectDeleteView(PermissionRequiredMixin, DeleteView):
     template_name = 'project_templates/project_delete.html'
     model = Project
     success_url = '/projects/'
+    permission_required = 'webapp.delete_project'
+    permission_denied_message = 'Проекты могут удалять только менеджеры!'
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()

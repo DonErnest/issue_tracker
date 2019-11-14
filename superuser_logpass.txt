@@ -1,2 +1,11 @@
 login - ernest_aitiev
 pass - 2091
+
+Менеджер проекта: project_manager
+пароль: 1558project
+
+Капитан: team_lead
+пароль: 1600team
+
+Разработчик: developer
+пароль: 1601slave

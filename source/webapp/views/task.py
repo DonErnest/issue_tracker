@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 from django.http import Http404
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
@@ -14,11 +14,13 @@ class TaskView(DetailView):
     context_key = 'task'
 
 
-class CreateTaskView(UserPassesTestMixin, CreateView):
+class CreateTaskView(UserPassesTestMixin, PermissionRequiredMixin, CreateView):
     model = Task
     form_class = TaskCreateForm
     template_name = 'task_templates/task_create.html'
     context_key = 'task'
+    permission_required = 'webapp.add_task'
+    permission_denied_message = 'Ты вообще кто?!'
 
     def form_valid(self, form):
         self.project = self.get_project()
@@ -56,11 +58,13 @@ class CreateTaskView(UserPassesTestMixin, CreateView):
         return teams.filter(project=project)
 
 
-class EditTaskView(UserPassesTestMixin, UpdateView):
+class EditTaskView(UserPassesTestMixin, PermissionRequiredMixin, UpdateView):
     model = Task
     form_class = TaskCreateForm
     template_name = 'task_templates/task_edit.html'
     context_key = 'task'
+    permission_required = 'webapp.change_task'
+    permission_denied_message = 'Ты вообще кто?!'
 
     def get_success_url(self):
         return reverse('webapp:view task', kwargs={'pk': self.object.pk})
@@ -92,11 +96,13 @@ class EditTaskView(UserPassesTestMixin, UpdateView):
         task = Task.objects.get(pk=pk)
         return teams.filter(project=task.project)
 
-class DeleteTaskView(UserPassesTestMixin, DeleteView):
+class DeleteTaskView(UserPassesTestMixin, PermissionRequiredMixin, DeleteView):
     model = Task
     template_name = 'task_templates/task_delete.html'
     context_key = 'task'
     success_url = '/'
+    permission_required = 'webapp.delete_task'
+    permission_denied_message = 'Ты вообще кто?!'
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
