@@ -21,8 +21,12 @@
         <div class = "btn-block">
             {% if task.project.status == 'closed' %}
             {% else %}
-                <a href="{% url  'webapp:edit task' task.pk %}" class="card-link btn btn-success btn-sm">Редактировать</a>
-                <a href="{% url 'webapp:delete task' task.pk %}" class="card-link btn btn-success btn-sm">Удалить</a>
+                {% if perms.webapp.change_task %}
+                    <a href="{% url  'webapp:edit task' task.pk %}" class="card-link btn btn-success btn-sm">Редактировать</a>
+                {% endif %}
+                {% if perms.webapp.delete_task %}
+                    <a href="{% url 'webapp:delete task' task.pk %}" class="card-link btn btn-success btn-sm">Удалить</a>
+                {% endif %}
             {% endif %}
             <a class = "btn btn-warning" href="{% url 'webapp:main_page' %}">Вернуться на главную страницу</a>
         </div>

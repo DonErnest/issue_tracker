@@ -55,7 +55,7 @@ class CreateTaskView(UserPassesTestMixin, PermissionRequiredMixin, CreateView):
         teams = self.request.user.team.distinct()
         pk = self.kwargs['pk']
         project = Project.objects.get(pk=pk)
-        return teams.filter(project=project)
+        return teams.filter(project=project, end_date=None)
 
 
 class EditTaskView(UserPassesTestMixin, PermissionRequiredMixin, UpdateView):
@@ -94,7 +94,7 @@ class EditTaskView(UserPassesTestMixin, PermissionRequiredMixin, UpdateView):
         teams = self.request.user.team.distinct()
         pk = self.kwargs['pk']
         task = Task.objects.get(pk=pk)
-        return teams.filter(project=task.project)
+        return teams.filter(project=task.project, end_date=None)
 
 class DeleteTaskView(UserPassesTestMixin, PermissionRequiredMixin, DeleteView):
     model = Task
@@ -120,4 +120,4 @@ class DeleteTaskView(UserPassesTestMixin, PermissionRequiredMixin, DeleteView):
         teams = self.request.user.team.distinct()
         pk = self.kwargs['pk']
         task = Task.objects.get(pk=pk)
-        return teams.filter(project=task.project)
+        return teams.filter(project=task.project, end_date=None)

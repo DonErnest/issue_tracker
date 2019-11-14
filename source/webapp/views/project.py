@@ -68,7 +68,7 @@ class ProjectView(DetailView):
         context['page_obj'] = page
         context['tasks'] = page.object_list
         context['is_paginated'] = page.has_other_pages()
-        context['team'] = User.objects.filter(team__project=project)
+        context['team'] = User.objects.filter(team__project=project).filter(team__end_date=None)
         context['project_squad'] = Team.objects.filter(project=project, end_date=None).distinct()
         context['form'] = TeamAddForm(project=self.object)
         return context

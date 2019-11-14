@@ -13,7 +13,7 @@
                 <p><strong>Подробно:</strong> {{ project.description|escape|linebreaks }}</p>
             </div>
             <div class="col-lg-6 col-md-6 col-12 align-self-center justify-content-center d-flex">
-                {% if request.user in team %}
+                {% if request.user in team and perms.webapp.add_task %}
                     <a href="{% url 'webapp:create task' project.pk%}"class="btn btn-lg btn-success">Добавить задачу</a>
                 {% endif %}
             </div>
