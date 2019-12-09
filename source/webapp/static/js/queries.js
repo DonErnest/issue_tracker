@@ -66,14 +66,6 @@ function getTasksforProject () {
     });
 }
 
-function performRequests() {
-    viewAllTasks();
-    viewAllProjects();
-    getTasksforProject();
-}
-
-checkIfToken();
-
 function addTaskforProject() {
     $.ajax({
         url: 'http://localhost:8000/api/v1/tasks/',
@@ -95,4 +87,40 @@ function addTaskforProject() {
     });
 }
 
-checkIfToken().then(viewAllTasks, getToken);
+function deleteSelectedTask() {
+    $.ajax({
+        url: 'http://localhost:8000/api/v1/tasks/82/',
+        method: 'delete',
+        headers: {'Authorization': 'Token ' + localStorage.getItem('apiToken')},
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function(response, status){console.log('Удаление прошло успешно!')},
+        error: function(response, status){console.log(response);}
+    });
+}
+
+function performRequests() {
+    viewAllTasks();
+    viewAllProjects();
+    getTasksforProject();
+    addTaskforProject();
+    deleteSelectedTask();
+}
+
+checkIfToken();
+
+
+
+// Аякс запрос на logout  и удаление токена из локального хранилища
+//
+// $.ajax({
+//         url: 'http://localhost:8000/api/v1/logout/',
+//         method: 'post',
+//         headers: {'Authorization': 'Token ' + localStorage.getItem('apiToken')},
+//         dataType: 'json',
+//         contentType: 'application/json',
+//         success: function(response, status){console.log(response)},
+//         error: function(response, status){console.log(response);}
+//     });
+// localStorage.removeItem('apiToken');
+//
