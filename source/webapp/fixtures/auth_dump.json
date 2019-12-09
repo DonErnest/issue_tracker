@@ -116,7 +116,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$150000$oO5SWYIwIy3k$o8uiF45H8JrPOpM2n5Hg90WbUpfQcOm0s4N7I2sew+4=",
-    "last_login": "2019-11-14T12:21:07.295Z",
+    "last_login": "2019-12-09T07:07:16.795Z",
     "is_superuser": true,
     "username": "ernest_aitiev",
     "first_name": "",
@@ -246,7 +246,7 @@
   "pk": 15,
   "fields": {
     "password": "pbkdf2_sha256$150000$RHhgkGWVcBOX$E3CNASKwrLJfRgyVvpzCYwXMO+JBa9fCl2SP3Xfg4mk=",
-    "last_login": "2019-11-14T12:08:07.487Z",
+    "last_login": "2019-12-09T04:49:29Z",
     "is_superuser": false,
     "username": "nurik",
     "first_name": "\u041d\u0443\u0440\u0441\u0443\u043b\u0442\u0430\u043d",
@@ -257,7 +257,7 @@
     "date_joined": "2019-11-03T16:10:18Z",
     "groups": [
       [
-        "Developer"
+        "Team Lead"
       ]
     ],
     "user_permissions": []
@@ -470,6 +470,24 @@
         "Developer"
       ]
     ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 27,
+  "fields": {
+    "password": "pbkdf2_sha256$150000$r9DqeRG909Xs$LcUp8fW1KQS+zBJ9tWM5qLSWFX4Mr4uNY/O9jKx4xN4=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "Superman",
+    "first_name": "Klark",
+    "last_name": "Kent",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-12-08T17:11:56.820Z",
+    "groups": [],
     "user_permissions": []
   }
 }

@@ -66,14 +66,6 @@ function getTasksforProject () {
     });
 }
 
-function performRequests() {
-    viewAllTasks();
-    viewAllProjects();
-    getTasksforProject();
-}
-
-checkIfToken();
-
 function addTaskforProject() {
     $.ajax({
         url: 'http://localhost:8000/api/v1/tasks/',
@@ -95,4 +87,56 @@ function addTaskforProject() {
     });
 }
 
-checkIfToken().then(viewAllTasks, getToken);
+function deleteSelectedTask() {
+    $.ajax({
+        url: 'http://localhost:8000/api/v1/tasks/82/',
+        method: 'delete',
+        headers: {'Authorization': 'Token ' + localStorage.getItem('apiToken')},
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function(response, status){console.log('Удаление прошло успешно!')},
+        error: function(response, status){console.log(response);}
+    });
+}
+
+function performRequests() {
+    viewAllTasks();
+    viewAllProjects();
+    getTasksforProject();
+    addTaskforProject();
+    deleteSelectedTask();
+}
+
+checkIfToken();
+
+
+
+
+$.ajax({
+        url: 'http://localhost:8000/api/v1/logout/',
+        method: 'post',
+        headers: {'Authorization': 'Token ' + localStorage.getItem('apiToken')},
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function(response, status){console.log(response)},
+        error: function(response, status){console.log(response);}
+    });
+
+$.ajax({
+        url: 'http://localhost:8000/api/v1/tasks/',
+        method: 'post',
+        headers: {'Authorization': 'Token ' + localStorage.getItem('apiToken')},
+        data: JSON.stringify({
+            "summary": "Тест",
+            "description": "Тестовая задача на удаление",
+            "status":5,
+            "type": 1,
+            "assigned_to": 22,
+            "created_by": 15,
+            "project": 17
+        }),
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function(response, status){console.log(response)},
+        error: function(response, status){console.log(response);}
+    });
