@@ -111,6 +111,7 @@ checkIfToken();
 
 
 
+<<<<<<< HEAD
 // Аякс запрос на logout  и удаление токена из локального хранилища
 //
 // $.ajax({
@@ -124,3 +125,34 @@ checkIfToken();
 //     });
 // localStorage.removeItem('apiToken');
 //
+=======
+
+$.ajax({
+        url: 'http://localhost:8000/api/v1/logout/',
+        method: 'post',
+        headers: {'Authorization': 'Token ' + localStorage.getItem('apiToken')},
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function(response, status){console.log(response)},
+        error: function(response, status){console.log(response);}
+    });
+
+$.ajax({
+        url: 'http://localhost:8000/api/v1/tasks/',
+        method: 'post',
+        headers: {'Authorization': 'Token ' + localStorage.getItem('apiToken')},
+        data: JSON.stringify({
+            "summary": "Тест",
+            "description": "Тестовая задача на удаление",
+            "status":5,
+            "type": 1,
+            "assigned_to": 22,
+            "created_by": 15,
+            "project": 17
+        }),
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function(response, status){console.log(response)},
+        error: function(response, status){console.log(response);}
+    });
+>>>>>>> 8585aa55ea117ad7a45b916d390a7c3513dc8420
